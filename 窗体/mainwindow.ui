@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>438</width>
-    <height>670</height>
+    <width>458</width>
+    <height>669</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -27,7 +27,7 @@
           <string>添加指令</string>
          </property>
          <property name="icon">
-          <iconset>
+          <iconset resource="../images.qrc">
            <normaloff>:/按钮图标/窗体/res/add.png</normaloff>:/按钮图标/窗体/res/add.png</iconset>
          </property>
          <property name="iconSize">
@@ -60,7 +60,7 @@
           <string>删除</string>
          </property>
          <property name="icon">
-          <iconset>
+          <iconset resource="../images.qrc">
            <normaloff>:/按钮图标/窗体/res/删除.png</normaloff>:/按钮图标/窗体/res/删除.png</iconset>
          </property>
          <property name="iconSize">
@@ -77,7 +77,7 @@
           <string>修改</string>
          </property>
          <property name="icon">
-          <iconset>
+          <iconset resource="../images.qrc">
            <normaloff>:/按钮图标/窗体/res/修改.png</normaloff>:/按钮图标/窗体/res/修改.png</iconset>
          </property>
          <property name="iconSize">
@@ -94,7 +94,7 @@
           <string>下移</string>
          </property>
          <property name="icon">
-          <iconset>
+          <iconset resource="../images.qrc">
            <normaloff>:/按钮图标/窗体/res/下移.png</normaloff>:/按钮图标/窗体/res/下移.png</iconset>
          </property>
         </widget>
@@ -105,7 +105,7 @@
           <string>上移</string>
          </property>
          <property name="icon">
-          <iconset>
+          <iconset resource="../images.qrc">
            <normaloff>:/按钮图标/窗体/res/上移.png</normaloff>:/按钮图标/窗体/res/上移.png</iconset>
          </property>
         </widget>
@@ -115,9 +115,25 @@
          <attribute name="horizontalHeaderDefaultSectionSize">
           <number>78</number>
          </attribute>
+         <row>
+          <property name="text">
+           <string>1</string>
+          </property>
+          <property name="textAlignment">
+           <set>AlignCenter</set>
+          </property>
+         </row>
+         <row>
+          <property name="text">
+           <string>2</string>
+          </property>
+         </row>
          <column>
           <property name="text">
            <string>顺序</string>
+          </property>
+          <property name="textAlignment">
+           <set>AlignCenter</set>
           </property>
           <property name="background">
            <color>
@@ -147,6 +163,46 @@
            <string>重复次数</string>
           </property>
          </column>
+         <item row="0" column="0">
+          <property name="text">
+           <string/>
+          </property>
+         </item>
+         <item row="0" column="1">
+          <property name="text">
+           <string/>
+          </property>
+         </item>
+         <item row="0" column="2">
+          <property name="text">
+           <string/>
+          </property>
+         </item>
+         <item row="0" column="3">
+          <property name="text">
+           <string/>
+          </property>
+         </item>
+         <item row="1" column="0">
+          <property name="text">
+           <string/>
+          </property>
+         </item>
+         <item row="1" column="1">
+          <property name="text">
+           <string/>
+          </property>
+         </item>
+         <item row="1" column="2">
+          <property name="text">
+           <string/>
+          </property>
+         </item>
+         <item row="1" column="3">
+          <property name="text">
+           <string/>
+          </property>
+         </item>
         </widget>
        </item>
       </layout>
@@ -268,7 +324,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>438</width>
+     <width>458</width>
      <height>26</height>
     </rect>
    </property>
@@ -323,7 +379,7 @@
   </widget>
   <action name="actionabout">
    <property name="icon">
-    <iconset>
+    <iconset resource="../images.qrc">
      <normaloff>:/按钮图标/窗体/res/关于.png</normaloff>:/按钮图标/窗体/res/关于.png</iconset>
    </property>
    <property name="text">
@@ -332,7 +388,7 @@
   </action>
   <action name="actionj">
    <property name="icon">
-    <iconset>
+    <iconset resource="../images.qrc">
      <normaloff>:/按钮图标/窗体/res/更新.png</normaloff>:/按钮图标/窗体/res/更新.png</iconset>
    </property>
    <property name="text">
@@ -341,7 +397,7 @@
   </action>
   <action name="actions">
    <property name="icon">
-    <iconset>
+    <iconset resource="../images.qrc">
      <normaloff>:/按钮图标/窗体/res/帮助.png</normaloff>:/按钮图标/窗体/res/帮助.png</iconset>
    </property>
    <property name="text">
@@ -350,7 +406,7 @@
   </action>
   <action name="actionb">
    <property name="icon">
-    <iconset>
+    <iconset resource="../images.qrc">
      <normaloff>:/按钮图标/窗体/res/保存.png</normaloff>:/按钮图标/窗体/res/保存.png</iconset>
    </property>
    <property name="text">
@@ -359,7 +415,7 @@
   </action>
   <action name="setting">
    <property name="icon">
-    <iconset>
+    <iconset resource="../images.qrc">
      <normaloff>:/按钮图标/窗体/res/设置.png</normaloff>:/按钮图标/窗体/res/设置.png</iconset>
    </property>
    <property name="text">
@@ -368,7 +424,7 @@
   </action>
   <action name="actionf">
    <property name="icon">
-    <iconset>
+    <iconset resource="../images.qrc">
      <normaloff>:/按钮图标/窗体/res/导入指令.png</normaloff>:/按钮图标/窗体/res/导入指令.png</iconset>
    </property>
    <property name="text">
