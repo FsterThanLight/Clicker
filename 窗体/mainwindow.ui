@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>438</width>
+    <height>670</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>自动点击</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QGridLayout" name="gridLayout_4">
+    <item row="1" column="0" colspan="2">
+     <widget class="QGroupBox" name="groupBox_2">
+      <property name="title">
+       <string>指令集合</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="1" column="0">
+        <widget class="QToolButton" name="toolButton">
+         <property name="text">
+          <string>添加指令</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../images.qrc">
+           <normaloff>:/按钮图标/窗体/res/add.png</normaloff>:/按钮图标/窗体/res/add.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="autoRaise">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="3">
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="1" column="1">
+        <widget class="QToolButton" name="toolButton_2">
+         <property name="text">
+          <string>删除</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../images.qrc">
+           <normaloff>:/按钮图标/窗体/res/删除.png</normaloff>:/按钮图标/窗体/res/删除.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2">
+        <widget class="QToolButton" name="toolButton_5">
+         <property name="text">
+          <string>修改</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../images.qrc">
+           <normaloff>:/按钮图标/窗体/res/修改.png</normaloff>:/按钮图标/窗体/res/修改.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="6">
+        <widget class="QToolButton" name="toolButton_4">
+         <property name="text">
+          <string>下移</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../images.qrc">
+           <normaloff>:/按钮图标/窗体/res/下移.png</normaloff>:/按钮图标/窗体/res/下移.png</iconset>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="5">
+        <widget class="QToolButton" name="toolButton_3">
+         <property name="text">
+          <string>上移</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../images.qrc">
+           <normaloff>:/按钮图标/窗体/res/上移.png</normaloff>:/按钮图标/窗体/res/上移.png</iconset>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0" colspan="7">
+        <widget class="QTableWidget" name="tableWidget">
+         <attribute name="horizontalHeaderDefaultSectionSize">
+          <number>78</number>
+         </attribute>
+         <column>
+          <property name="text">
+           <string>顺序</string>
+          </property>
+          <property name="background">
+           <color>
+            <red>255</red>
+            <green>0</green>
+            <blue>0</blue>
+           </color>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>图像名称</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>键鼠指令</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>参数</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>重复次数</string>
+          </property>
+         </column>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QGroupBox" name="groupBox_3">
+      <property name="title">
+       <string>控制</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_5">
+       <item row="1" column="1">
+        <widget class="QSpinBox" name="spinBox">
+         <property name="maximum">
+          <number>9999</number>
+         </property>
+         <property name="displayIntegerBase">
+          <number>10</number>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QRadioButton" name="radioButton_2">
+         <property name="text">
+          <string>重复次数：</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0" colspan="2">
+        <widget class="QCheckBox" name="checkBox_2">
+         <property name="text">
+          <string>运行时隐藏窗口</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QRadioButton" name="radioButton">
+         <property name="text">
+          <string>无限循环</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QGroupBox" name="groupBox_4">
+      <property name="title">
+       <string>操作</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_3">
+       <item row="1" column="0" colspan="3">
+        <widget class="QPushButton" name="pushButton_5">
+         <property name="text">
+          <string>开始运行</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>运行时长：</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>秒</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0" colspan="3">
+        <widget class="QPushButton" name="pushButton_6">
+         <property name="text">
+          <string>结束任务</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLCDNumber" name="lcdNumber">
+         <property name="styleSheet">
+          <string notr="true">color: rgb(255, 0, 127);</string>
+         </property>
+         <property name="smallDecimalPoint">
+          <bool>true</bool>
+         </property>
+         <property name="segmentStyle">
+          <enum>QLCDNumber::Flat</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0" colspan="3">
+        <widget class="QPushButton" name="pushButton_7">
+         <property name="text">
+          <string>暂停/恢复</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="0" column="0" colspan="2">
+     <widget class="QGroupBox" name="groupBox">
+      <property name="title">
+       <string>处理状态</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="0" column="0">
+        <widget class="QTextEdit" name="textEdit"/>
+       </item>
+      </layout>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>438</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>文件</string>
+    </property>
+    <addaction name="actionb"/>
+    <addaction name="actionf"/>
+   </widget>
+   <widget class="QMenu" name="menu_2">
+    <property name="title">
+     <string>帮助</string>
+    </property>
+    <addaction name="actionabout"/>
+    <addaction name="actionj"/>
+    <addaction name="actions"/>
+   </widget>
+   <widget class="QMenu" name="menu_4">
+    <property name="title">
+     <string>工具</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menu_3">
+    <property name="title">
+     <string>设置</string>
+    </property>
+   </widget>
+   <addaction name="menu"/>
+   <addaction name="menu_3"/>
+   <addaction name="menu_4"/>
+   <addaction name="menu_2"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionb"/>
+   <addaction name="actionf"/>
+   <addaction name="separator"/>
+   <addaction name="setting"/>
+   <addaction name="actions"/>
+   <addaction name="actionj"/>
+   <addaction name="actionabout"/>
+  </widget>
+  <action name="actionabout">
+   <property name="icon">
+    <iconset resource="../images.qrc">
+     <normaloff>:/按钮图标/窗体/res/关于.png</normaloff>:/按钮图标/窗体/res/关于.png</iconset>
+   </property>
+   <property name="text">
+    <string>关于</string>
+   </property>
+  </action>
+  <action name="actionj">
+   <property name="icon">
+    <iconset resource="../images.qrc">
+     <normaloff>:/按钮图标/窗体/res/更新.png</normaloff>:/按钮图标/窗体/res/更新.png</iconset>
+   </property>
+   <property name="text">
+    <string>检查更新</string>
+   </property>
+  </action>
+  <action name="actions">
+   <property name="icon">
+    <iconset resource="../images.qrc">
+     <normaloff>:/按钮图标/窗体/res/帮助.png</normaloff>:/按钮图标/窗体/res/帮助.png</iconset>
+   </property>
+   <property name="text">
+    <string>使用说明</string>
+   </property>
+  </action>
+  <action name="actionb">
+   <property name="icon">
+    <iconset resource="../images.qrc">
+     <normaloff>:/按钮图标/窗体/res/保存.png</normaloff>:/按钮图标/窗体/res/保存.png</iconset>
+   </property>
+   <property name="text">
+    <string>保存</string>
+   </property>
+  </action>
+  <action name="setting">
+   <property name="icon">
+    <iconset resource="../images.qrc">
+     <normaloff>:/按钮图标/窗体/res/设置.png</normaloff>:/按钮图标/窗体/res/设置.png</iconset>
+   </property>
+   <property name="text">
+    <string>设置</string>
+   </property>
+  </action>
+  <action name="actionf">
+   <property name="icon">
+    <iconset resource="../images.qrc">
+     <normaloff>:/按钮图标/窗体/res/导入指令.png</normaloff>:/按钮图标/窗体/res/导入指令.png</iconset>
+   </property>
+   <property name="text">
+    <string>导入指令</string>
+   </property>
+  </action>
+ </widget>
+ <resources>
+  <include location="../images.qrc"/>
+ </resources>
+ <connections/>
+</ui>
