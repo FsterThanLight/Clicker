@@ -1,10 +1,9 @@
 import pyautogui
 import pyperclip
 import sqlite3
-
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QFileDialog,QTableWidgetItem
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QFileDialog, QTableWidgetItem, QMessageBox
 from 窗体.add_instruction import Ui_Form
 from 窗体.mainwindow import Ui_MainWindow
 import sys
@@ -19,29 +18,61 @@ class Main_window(QMainWindow, Ui_MainWindow):
         # 初始化窗体
         self.setupUi(self)
         # 实例化子窗口1
-        self.dialog_1=Dialog()
+        self.dialog_1 = Dialog()
+        self.tableWidget.setColumnWidth(4, 50)
+        # 添加指令按钮
         self.toolButton.clicked.connect(self.show_dialog)
+        # 获取数据，修改按钮
         self.toolButton_5.clicked.connect(self.get_data)
-
+        # 获取数据，子窗体取消按钮
+        self.dialog_1.pushButton_2.clicked.connect(self.get_data)
+        # 获取数据，子窗体保存按钮
+        self.dialog_1.pushButton.clicked.connect(self.get_data)
+        # 删除数据，删除按钮
+        self.toolButton_2.clicked.connect(self.delete_data)
 
     def show_dialog(self):
         self.dialog_1.show()
+        print('子窗口开启')
 
     def get_data(self):
         """从数据库获取数据并存入表格"""
-        #获取数据库数据
-        con=sqlite3.connect('命令集.db')
-        cursor=con.cursor()
-        cursor.execute('select 图像名称,键鼠命令,参数,重复次数 from 命令')
-        list_order=cursor.fetchall()
+        self.tableWidget.clearContents()
+        self.tableWidget.setRowCount(0)
+        # 获取数据库数据
+        con = sqlite3.connect('命令集.db')
+        cursor = con.cursor()
+        cursor.execute('select 图像名称,键鼠命令,参数,重复次数,ID from 命令')
+        list_order = cursor.fetchall()
         con.close()
-        print(list_order)
-        #在表格中写入数据
+        # 在表格中写入数据
         for i in range(len(list_order)):
             self.tableWidget.insertRow(i)
             for j in range(len(list_order[i])):
-                self.tableWidget.setItem(i,j,QTableWidgetItem(str(list_order[i][j])))
+                self.tableWidget.setItem(i, j, QTableWidgetItem(str(list_order[i][j])))
 
+    def delete_data(self):
+        """删除选中的数据行"""
+        # 删除表中
+        try:
+            row = self.tableWidget.currentRow()
+            xx = self.tableWidget.item(row, 4).text()
+            print(xx)
+        except AttributeError:
+            pass
+        try:
+            self.tableWidget.removeRow(row)
+            # 删除数据库中数据
+            con = sqlite3.connect('命令集.db')
+            cursor = con.cursor()
+            cursor.execute('delete from 命令 where ID=?', (xx,))
+            con.commit()
+            con.close()
+        except UnboundLocalError:
+            pass
+
+    def go_up(self):
+        """向上移动选中数据"""
 
 class Dialog(QWidget, Ui_Form):
     """添加指令对话框"""
@@ -99,7 +130,6 @@ class Dialog(QWidget, Ui_Form):
 
 if __name__ == "__main__":
     app = QApplication([])
-    # dialog_1 = Dialog()
     main_window = Main_window()
     # 给窗体程序设置图标
     main_window.setWindowIcon(QIcon('图标.ico'))
