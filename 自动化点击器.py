@@ -3,7 +3,7 @@ import pyperclip
 import sqlite3
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QFileDialog, QTableWidgetItem, QMessageBox
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QFileDialog, QTableWidgetItem, QMessageBox, QComboBox
 from 窗体.add_instruction import Ui_Form
 from 窗体.mainwindow import Ui_MainWindow
 import sys
@@ -31,8 +31,11 @@ class Main_window(QMainWindow, Ui_MainWindow):
         # 删除数据，删除按钮
         self.toolButton_2.clicked.connect(self.delete_data)
         # 交换数据，上移按钮
-        self.toolButton_3.clicked.connect(lambda:self.go_up_down("up"))
-        self.toolButton_4.clicked.connect(lambda:self.go_up_down("down"))
+        self.toolButton_3.clicked.connect(lambda: self.go_up_down("up"))
+        self.toolButton_4.clicked.connect(lambda: self.go_up_down("down"))
+        # 单元格变动自动存储
+        self.tableWidget.cellChanged.connect(self.table_cell_changed)
+        self.toolButton_6.clicked.connect(self.table_cell_changed)
 
     def show_dialog(self):
         self.dialog_1.show()
@@ -40,6 +43,7 @@ class Main_window(QMainWindow, Ui_MainWindow):
 
     def get_data(self):
         """从数据库获取数据并存入表格"""
+        list_options = ['左键单击', '左键双击', '右键单击', '等待']
         self.tableWidget.clearContents()
         self.tableWidget.setRowCount(0)
         # 获取数据库数据
@@ -52,17 +56,22 @@ class Main_window(QMainWindow, Ui_MainWindow):
         for i in range(len(list_order)):
             self.tableWidget.insertRow(i)
             for j in range(len(list_order[i])):
-                self.tableWidget.setItem(i, j, QTableWidgetItem(str(list_order[i][j])))
+                if j != 1:
+                    self.tableWidget.setItem(i, j, QTableWidgetItem(str(list_order[i][j])))
+                else:
+                    combox = QComboBox()
+                    combox.addItems(list_options)
+                    combox.setCurrentText(list_order[i][j])
+                    self.tableWidget.setCellWidget(i, 1, combox)
 
     def delete_data(self):
         """删除选中的数据行"""
         # 删除表中
-        try:
-            row = self.tableWidget.currentRow()
+        row = self.tableWidget.currentRow()
+        if row != -1:
             xx = self.tableWidget.item(row, 4).text()
-            print(xx)
-        except AttributeError:
-            pass
+        else:
+            xx = -1
         try:
             self.tableWidget.removeRow(row)
             # 删除数据库中数据
@@ -74,18 +83,18 @@ class Main_window(QMainWindow, Ui_MainWindow):
         except UnboundLocalError:
             pass
 
-    def go_up_down(self,judge):
+    def go_up_down(self, judge):
         """向上移动选中数据"""
         # 获取选中值的行号和id
         row = self.tableWidget.currentRow()
-        column=self.tableWidget.currentColumn()
+        column = self.tableWidget.currentColumn()
         try:
             id = int(self.tableWidget.item(row, 4).text())
-            if judge=='up':
-                id_up_down=id-1
-                row_up_down=row-1
+            if judge == 'up':
+                id_up_down = id - 1
+                row_up_down = row - 1
             else:
-                id_up_down=id+1
+                id_up_down = id + 1
                 row_up_down = row + 1
             # 连接数据库
             con = sqlite3.connect('命令集.db')
@@ -94,7 +103,7 @@ class Main_window(QMainWindow, Ui_MainWindow):
             list_id = cursor.fetchall()
             cursor.execute('select 图像名称,键鼠命令,参数,重复次数 from 命令 where ID=?', (id_up_down,))
             list_id_up = cursor.fetchall()
-            #更新数据库，交换两行数据，保持id不变
+            # 更新数据库，交换两行数据，保持id不变
             try:
                 cursor.execute('update 命令 set 图像名称=?,键鼠命令=?,参数=?,重复次数=? where ID=?',
                                (list_id[0][0], list_id[0][1], list_id[0][2], list_id[0][3], id_up_down))
@@ -109,6 +118,24 @@ class Main_window(QMainWindow, Ui_MainWindow):
         except AttributeError:
             pass
 
+    def table_cell_changed(self):
+        """单元格改变时自动存储"""
+        rows=self.tableWidget.rowCount()
+        print(rows)
+        # row = self.tableWidget.currentRow()
+        # # 获取选中行的id，及其他参数
+        # id = self.tableWidget.item(row, 4).text()
+        # images = self.tableWidget.item(row, 0).text()
+        # parameter = self.tableWidget.item(row, 2).text()
+        # repeat_number = self.tableWidget.item(row, 3).text()
+        # option = self.tableWidget.cellWidget(row, 1).currentText()
+        # # 连接数据库，提交修改
+        # con = sqlite3.connect('命令集.db')
+        # cursor = con.cursor()
+        # cursor.execute('update 命令 set 图像名称=?,键鼠命令=?,参数=?,重复次数=? where ID=?',
+        #                (images, option, parameter, repeat_number, id))
+        # con.commit()
+        # con.close()
 
 class Dialog(QWidget, Ui_Form):
     """添加指令对话框"""
