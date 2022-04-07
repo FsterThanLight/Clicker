@@ -30,6 +30,9 @@ class Main_window(QMainWindow, Ui_MainWindow):
         self.dialog_1.pushButton.clicked.connect(self.get_data)
         # 删除数据，删除按钮
         self.toolButton_2.clicked.connect(self.delete_data)
+        # 交换数据，上移按钮
+        self.toolButton_3.clicked.connect(lambda:self.go_up_down("up"))
+        self.toolButton_4.clicked.connect(lambda:self.go_up_down("down"))
 
     def show_dialog(self):
         self.dialog_1.show()
@@ -71,8 +74,41 @@ class Main_window(QMainWindow, Ui_MainWindow):
         except UnboundLocalError:
             pass
 
-    def go_up(self):
+    def go_up_down(self,judge):
         """向上移动选中数据"""
+        # 获取选中值的行号和id
+        row = self.tableWidget.currentRow()
+        column=self.tableWidget.currentColumn()
+        try:
+            id = int(self.tableWidget.item(row, 4).text())
+            if judge=='up':
+                id_up_down=id-1
+                row_up_down=row-1
+            else:
+                id_up_down=id+1
+                row_up_down = row + 1
+            # 连接数据库
+            con = sqlite3.connect('命令集.db')
+            cursor = con.cursor()
+            cursor.execute('select 图像名称,键鼠命令,参数,重复次数 from 命令 where ID=?', (id,))
+            list_id = cursor.fetchall()
+            cursor.execute('select 图像名称,键鼠命令,参数,重复次数 from 命令 where ID=?', (id_up_down,))
+            list_id_up = cursor.fetchall()
+            #更新数据库，交换两行数据，保持id不变
+            try:
+                cursor.execute('update 命令 set 图像名称=?,键鼠命令=?,参数=?,重复次数=? where ID=?',
+                               (list_id[0][0], list_id[0][1], list_id[0][2], list_id[0][3], id_up_down))
+                con.commit()
+                cursor.execute('update 命令 set 图像名称=?,键鼠命令=?,参数=?,重复次数=? where ID=?',
+                               (list_id_up[0][0], list_id_up[0][1], list_id_up[0][2], list_id_up[0][3], id))
+                con.commit()
+                self.get_data()
+                self.tableWidget.setCurrentCell(row_up_down, column)
+            except IndexError:
+                pass
+        except AttributeError:
+            pass
+
 
 class Dialog(QWidget, Ui_Form):
     """添加指令对话框"""
