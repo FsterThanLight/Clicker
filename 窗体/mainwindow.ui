@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>458</width>
+    <width>407</width>
     <height>669</height>
    </rect>
   </property>
@@ -115,34 +115,9 @@
          <attribute name="horizontalHeaderDefaultSectionSize">
           <number>78</number>
          </attribute>
-         <row>
-          <property name="text">
-           <string>1</string>
-          </property>
-          <property name="textAlignment">
-           <set>AlignCenter</set>
-          </property>
-         </row>
-         <row>
-          <property name="text">
-           <string>2</string>
-          </property>
-         </row>
-         <column>
-          <property name="text">
-           <string>顺序</string>
-          </property>
-          <property name="textAlignment">
-           <set>AlignCenter</set>
-          </property>
-          <property name="background">
-           <color>
-            <red>255</red>
-            <green>0</green>
-            <blue>0</blue>
-           </color>
-          </property>
-         </column>
+         <attribute name="verticalHeaderDefaultSectionSize">
+          <number>30</number>
+         </attribute>
          <column>
           <property name="text">
            <string>图像名称</string>
@@ -163,46 +138,6 @@
            <string>重复次数</string>
           </property>
          </column>
-         <item row="0" column="0">
-          <property name="text">
-           <string/>
-          </property>
-         </item>
-         <item row="0" column="1">
-          <property name="text">
-           <string/>
-          </property>
-         </item>
-         <item row="0" column="2">
-          <property name="text">
-           <string/>
-          </property>
-         </item>
-         <item row="0" column="3">
-          <property name="text">
-           <string/>
-          </property>
-         </item>
-         <item row="1" column="0">
-          <property name="text">
-           <string/>
-          </property>
-         </item>
-         <item row="1" column="1">
-          <property name="text">
-           <string/>
-          </property>
-         </item>
-         <item row="1" column="2">
-          <property name="text">
-           <string/>
-          </property>
-         </item>
-         <item row="1" column="3">
-          <property name="text">
-           <string/>
-          </property>
-         </item>
         </widget>
        </item>
       </layout>
@@ -324,7 +259,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>458</width>
+     <width>407</width>
      <height>26</height>
     </rect>
    </property>

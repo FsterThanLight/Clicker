@@ -1,8 +1,10 @@
 import pyautogui
 import pyperclip
 import sqlite3
+
+from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QFileDialog
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QFileDialog,QTableWidgetItem
 from 窗体.add_instruction import Ui_Form
 from 窗体.mainwindow import Ui_MainWindow
 import sys
@@ -19,10 +21,26 @@ class Main_window(QMainWindow, Ui_MainWindow):
         # 实例化子窗口1
         self.dialog_1=Dialog()
         self.toolButton.clicked.connect(self.show_dialog)
+        self.toolButton_5.clicked.connect(self.get_data)
 
 
     def show_dialog(self):
         self.dialog_1.show()
+
+    def get_data(self):
+        """从数据库获取数据并存入表格"""
+        #获取数据库数据
+        con=sqlite3.connect('命令集.db')
+        cursor=con.cursor()
+        cursor.execute('select 图像名称,键鼠命令,参数,重复次数 from 命令')
+        list_order=cursor.fetchall()
+        con.close()
+        print(list_order)
+        #在表格中写入数据
+        for i in range(len(list_order)):
+            self.tableWidget.insertRow(i)
+            for j in range(len(list_order[i])):
+                self.tableWidget.setItem(i,j,QTableWidgetItem(str(list_order[i][j])))
 
 
 class Dialog(QWidget, Ui_Form):
