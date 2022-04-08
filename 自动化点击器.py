@@ -20,6 +20,7 @@ class Main_window(QMainWindow, Ui_MainWindow):
         # 实例化子窗口1
         self.dialog_1 = Dialog()
         self.tableWidget.setColumnWidth(4, 50)
+        self.tableWidget.setColumnWidth(1, 100)
         # 添加指令按钮
         self.toolButton.clicked.connect(self.show_dialog)
         # 获取数据，修改按钮
@@ -36,6 +37,10 @@ class Main_window(QMainWindow, Ui_MainWindow):
         # 单元格变动自动存储
         self.change_state = True
         self.tableWidget.cellChanged.connect(self.table_cell_changed)
+        # 保存按钮
+        self.actionb.triggered.connect(self.save_data_to_current)
+        # 清空指令按钮
+        self.toolButton_6.clicked.connect(self.clear_table)
 
     def show_dialog(self):
         self.dialog_1.show()
@@ -141,6 +146,51 @@ class Main_window(QMainWindow, Ui_MainWindow):
             con.commit()
             con.close()
 
+    def save_data_to_current(self):
+        """保存配置文件到当前文件夹下"""
+        if self.dialog_1.filePath!='':
+            file = self.dialog_1.filePath + "/命令集.txt"
+            with open(file, 'w', encoding='utf-8') as f:
+                con = sqlite3.connect('命令集.db')
+                cursor = con.cursor()
+                cursor.execute('select * from 命令')
+                list_orders = cursor.fetchall()
+                con.close()
+                print(list_orders)
+                # txt中写入数据
+                for i in range(len(list_orders)):
+                    for j in range(len(list_orders[i])):
+                        f.write(str(list_orders[i][j])+',')
+                    f.write('\n')
+                QMessageBox.information(self,'保存成功','数据已保存至'+file)
+        else:
+            QMessageBox.warning(self,'未选择文件夹',"请点击'添加指令'并选择存放目标图像的文件夹！")
+
+    def clear_database(self):
+        """清空数据库"""
+        con=sqlite3.connect('命令集.db')
+        cursor=con.cursor()
+        cursor.execute('delete from 命令 where ID<>-1')
+        con.commit()
+        con.close()
+
+    def closeEvent(self,event):
+        choice=QMessageBox.question(self,"提示","确定退出并清空所有指令？")
+        if choice==QMessageBox.Yes:
+            event.accept()
+        else:
+            event.ignore()
+        self.clear_database()
+
+    def clear_table(self):
+        """清空表格和数据库"""
+        choice=QMessageBox.question(self,"提示","确认清除所有指令吗？")
+        if choice==QMessageBox.Yes:
+            self.clear_database()
+            self.get_data()
+        else:
+            pass
+
 
 class Dialog(QWidget, Ui_Form):
     """添加指令对话框"""
@@ -152,17 +202,21 @@ class Dialog(QWidget, Ui_Form):
         self.pushButton_3.clicked.connect(self.select_file)
         self.spinBox_2.setValue(1)
         self.pushButton.clicked.connect(self.save_data)
+        self.filePath = ''
 
     def select_file(self):
         """选择文件夹并返回文件夹名称"""
-        filePath = QFileDialog.getExistingDirectory(self, "选择存储目标图像的文件夹")
-        images_name = os.listdir(filePath)
+        self.filePath = QFileDialog.getExistingDirectory(self, "选择存储目标图像的文件夹")
+        try:
+            images_name = os.listdir(self.filePath)
+        except FileNotFoundError:
+            images_name=[]
         # 去除文件夹中非png文件名称
         for i in range(len(images_name) - 1, -1, -1):
             if ".png" not in images_name[i]:
                 images_name.remove(images_name[i])
         print(images_name)
-        self.label_6.setText(filePath.split('/')[-1])
+        self.label_6.setText(self.filePath.split('/')[-1])
         self.comboBox.addItems(images_name)
         self.label_3.setText('无参数')
         self.comboBox_2.currentIndexChanged.connect(self.change_label3)

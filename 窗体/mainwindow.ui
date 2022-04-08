@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>407</width>
+    <width>445</width>
     <height>715</height>
    </rect>
   </property>
@@ -39,6 +39,17 @@
        <string>指令集合</string>
       </property>
       <layout class="QGridLayout" name="gridLayout">
+       <item row="1" column="7">
+        <widget class="QToolButton" name="toolButton_4">
+         <property name="text">
+          <string>下移</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../images.qrc">
+           <normaloff>:/按钮图标/窗体/res/下移.png</normaloff>:/按钮图标/窗体/res/下移.png</iconset>
+         </property>
+        </widget>
+       </item>
        <item row="1" column="1">
         <widget class="QToolButton" name="toolButton_2">
          <property name="text">
@@ -63,13 +74,33 @@
          </property>
          <property name="icon">
           <iconset resource="../images.qrc">
-           <normaloff>:/按钮图标/窗体/res/修改.png</normaloff>:/按钮图标/窗体/res/修改.png</iconset>
+           <normaloff>:/按钮图标/窗体/res/刷新.png</normaloff>:/按钮图标/窗体/res/刷新.png</iconset>
          </property>
          <property name="iconSize">
           <size>
            <width>40</width>
            <height>20</height>
           </size>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QToolButton" name="toolButton">
+         <property name="text">
+          <string>添加指令</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../images.qrc">
+           <normaloff>:/按钮图标/窗体/res/add.png</normaloff>:/按钮图标/窗体/res/add.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="autoRaise">
+          <bool>false</bool>
          </property>
         </widget>
        </item>
@@ -92,7 +123,7 @@
           <bool>true</bool>
          </attribute>
          <attribute name="horizontalHeaderDefaultSectionSize">
-          <number>78</number>
+          <number>80</number>
          </attribute>
          <attribute name="verticalHeaderVisible">
           <bool>false</bool>
@@ -138,45 +169,14 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="7">
-        <widget class="QToolButton" name="toolButton_4">
-         <property name="text">
-          <string>下移</string>
-         </property>
-         <property name="icon">
-          <iconset resource="../images.qrc">
-           <normaloff>:/按钮图标/窗体/res/下移.png</normaloff>:/按钮图标/窗体/res/下移.png</iconset>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QToolButton" name="toolButton">
-         <property name="text">
-          <string>添加指令</string>
-         </property>
-         <property name="icon">
-          <iconset resource="../images.qrc">
-           <normaloff>:/按钮图标/窗体/res/add.png</normaloff>:/按钮图标/窗体/res/add.png</iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-         <property name="autoRaise">
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
        <item row="1" column="3">
         <widget class="QToolButton" name="toolButton_6">
          <property name="text">
-          <string>保存</string>
+          <string>清除指令</string>
          </property>
          <property name="icon">
           <iconset resource="../images.qrc">
-           <normaloff>:/按钮图标/窗体/res/保存.png</normaloff>:/按钮图标/窗体/res/保存.png</iconset>
+           <normaloff>:/按钮图标/窗体/res/清除.png</normaloff>:/按钮图标/窗体/res/清除.png</iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -293,7 +293,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>407</width>
+     <width>445</width>
      <height>26</height>
     </rect>
    </property>

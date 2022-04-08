@@ -1,5 +1,7 @@
 <RCC>
   <qresource prefix="按钮图标">
+    <file>窗体/res/清除.png</file>
+    <file>窗体/res/刷新.png</file>
     <file>图标.png</file>
     <file>窗体/res/add.png</file>
     <file>窗体/res/帮助.png</file>
