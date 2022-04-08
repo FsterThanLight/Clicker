@@ -34,8 +34,8 @@ class Main_window(QMainWindow, Ui_MainWindow):
         self.toolButton_3.clicked.connect(lambda: self.go_up_down("up"))
         self.toolButton_4.clicked.connect(lambda: self.go_up_down("down"))
         # 单元格变动自动存储
+        self.change_state = True
         self.tableWidget.cellChanged.connect(self.table_cell_changed)
-        self.toolButton_6.clicked.connect(self.table_cell_changed)
 
     def show_dialog(self):
         self.dialog_1.show()
@@ -43,6 +43,7 @@ class Main_window(QMainWindow, Ui_MainWindow):
 
     def get_data(self):
         """从数据库获取数据并存入表格"""
+        self.change_state = False
         list_options = ['左键单击', '左键双击', '右键单击', '等待']
         self.tableWidget.clearContents()
         self.tableWidget.setRowCount(0)
@@ -63,6 +64,8 @@ class Main_window(QMainWindow, Ui_MainWindow):
                     combox.addItems(list_options)
                     combox.setCurrentText(list_order[i][j])
                     self.tableWidget.setCellWidget(i, 1, combox)
+                    combox.currentIndexChanged.connect(self.table_cell_changed)
+        self.change_state = True
 
     def delete_data(self):
         """删除选中的数据行"""
@@ -120,22 +123,24 @@ class Main_window(QMainWindow, Ui_MainWindow):
 
     def table_cell_changed(self):
         """单元格改变时自动存储"""
-        rows=self.tableWidget.rowCount()
-        print(rows)
-        # row = self.tableWidget.currentRow()
-        # # 获取选中行的id，及其他参数
-        # id = self.tableWidget.item(row, 4).text()
-        # images = self.tableWidget.item(row, 0).text()
-        # parameter = self.tableWidget.item(row, 2).text()
-        # repeat_number = self.tableWidget.item(row, 3).text()
-        # option = self.tableWidget.cellWidget(row, 1).currentText()
-        # # 连接数据库，提交修改
-        # con = sqlite3.connect('命令集.db')
-        # cursor = con.cursor()
-        # cursor.execute('update 命令 set 图像名称=?,键鼠命令=?,参数=?,重复次数=? where ID=?',
-        #                (images, option, parameter, repeat_number, id))
-        # con.commit()
-        # con.close()
+        print(self.change_state)
+        if self.change_state:
+            print('自动存储')
+            row = self.tableWidget.currentRow()
+            # 获取选中行的id，及其他参数
+            id = self.tableWidget.item(row, 4).text()
+            images = self.tableWidget.item(row, 0).text()
+            parameter = self.tableWidget.item(row, 2).text()
+            repeat_number = self.tableWidget.item(row, 3).text()
+            option = self.tableWidget.cellWidget(row, 1).currentText()
+            # 连接数据库，提交修改
+            con = sqlite3.connect('命令集.db')
+            cursor = con.cursor()
+            cursor.execute('update 命令 set 图像名称=?,键鼠命令=?,参数=?,重复次数=? where ID=?',
+                           (images, option, parameter, repeat_number, id))
+            con.commit()
+            con.close()
+
 
 class Dialog(QWidget, Ui_Form):
     """添加指令对话框"""
