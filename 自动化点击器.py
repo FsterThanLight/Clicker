@@ -3,7 +3,8 @@ import pyperclip
 import sqlite3
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QFileDialog, QTableWidgetItem, QMessageBox, QComboBox
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, \
+    QFileDialog, QTableWidgetItem, QMessageBox, QComboBox, QHeaderView
 from 窗体.add_instruction import Ui_Form
 from 窗体.mainwindow import Ui_MainWindow
 import sys
@@ -19,8 +20,14 @@ class Main_window(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         # 实例化子窗口1
         self.dialog_1 = Dialog()
+        # 设置表格列宽自动变化，并使第5列列宽固定
+        self.tableWidget.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        self.tableWidget.horizontalHeader().setSectionResizeMode(0, QHeaderView.Interactive)
+        self.tableWidget.horizontalHeader().setSectionResizeMode(4, QHeaderView.Fixed)
+        self.tableWidget.horizontalHeader().setSectionResizeMode(3, QHeaderView.Fixed)
         self.tableWidget.setColumnWidth(4, 50)
-        self.tableWidget.setColumnWidth(1, 100)
+        self.tableWidget.setColumnWidth(3, 50)
+        self.tableWidget.setColumnWidth(0, 100)
         # 添加指令按钮
         self.toolButton.clicked.connect(self.show_dialog)
         # 获取数据，修改按钮

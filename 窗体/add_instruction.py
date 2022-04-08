@@ -97,4 +97,4 @@ class Ui_Form(object):
         self.label_6.setText(_translate("Form", "暂无"))
         self.pushButton.setText(_translate("Form", "保存"))
         self.pushButton_2.setText(_translate("Form", "取消"))
-import images
+import images_rc

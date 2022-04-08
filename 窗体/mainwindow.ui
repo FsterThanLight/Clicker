@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>445</width>
-    <height>715</height>
+    <width>420</width>
+    <height>697</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -119,11 +119,26 @@
        </item>
        <item row="0" column="0" colspan="8">
         <widget class="QTableWidget" name="tableWidget">
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="showGrid">
+          <bool>true</bool>
+         </property>
+         <property name="gridStyle">
+          <enum>Qt::SolidLine</enum>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
          <attribute name="horizontalHeaderVisible">
           <bool>true</bool>
          </attribute>
+         <attribute name="horizontalHeaderCascadingSectionResizes">
+          <bool>true</bool>
+         </attribute>
          <attribute name="horizontalHeaderDefaultSectionSize">
-          <number>80</number>
+          <number>75</number>
          </attribute>
          <attribute name="verticalHeaderVisible">
           <bool>false</bool>
@@ -135,25 +150,40 @@
           <property name="text">
            <string>图像名称</string>
           </property>
+          <property name="textAlignment">
+           <set>AlignLeading|AlignVCenter</set>
+          </property>
          </column>
          <column>
           <property name="text">
            <string>键鼠指令</string>
+          </property>
+          <property name="textAlignment">
+           <set>AlignLeading|AlignVCenter</set>
           </property>
          </column>
          <column>
           <property name="text">
            <string>参数</string>
           </property>
+          <property name="textAlignment">
+           <set>AlignLeading|AlignVCenter</set>
+          </property>
          </column>
          <column>
           <property name="text">
-           <string>重复次数</string>
+           <string>重复</string>
+          </property>
+          <property name="textAlignment">
+           <set>AlignLeading|AlignVCenter</set>
           </property>
          </column>
          <column>
           <property name="text">
            <string>ID</string>
+          </property>
+          <property name="textAlignment">
+           <set>AlignLeading|AlignVCenter</set>
           </property>
          </column>
         </widget>
@@ -293,7 +323,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>445</width>
+     <width>420</width>
      <height>26</height>
     </rect>
    </property>
