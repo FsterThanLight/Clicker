@@ -48,6 +48,8 @@ class Main_window(QMainWindow, Ui_MainWindow):
         self.actionb.triggered.connect(self.save_data_to_current)
         # 清空指令按钮
         self.toolButton_6.clicked.connect(self.clear_table)
+        # 导入数据按钮
+        self.actionf.triggered.connect(self.data_import)
 
     def show_dialog(self):
         self.dialog_1.show()
@@ -135,7 +137,6 @@ class Main_window(QMainWindow, Ui_MainWindow):
 
     def table_cell_changed(self):
         """单元格改变时自动存储"""
-        print(self.change_state)
         if self.change_state:
             print('自动存储')
             row = self.tableWidget.currentRow()
@@ -155,35 +156,35 @@ class Main_window(QMainWindow, Ui_MainWindow):
 
     def save_data_to_current(self):
         """保存配置文件到当前文件夹下"""
-        if self.dialog_1.filePath!='':
+        if self.dialog_1.filePath != '':
             file = self.dialog_1.filePath + "/命令集.txt"
             with open(file, 'w', encoding='utf-8') as f:
+                f.write('请将本文件放入保存图像的文件夹中。\n')
                 con = sqlite3.connect('命令集.db')
                 cursor = con.cursor()
                 cursor.execute('select * from 命令')
                 list_orders = cursor.fetchall()
                 con.close()
-                print(list_orders)
                 # txt中写入数据
                 for i in range(len(list_orders)):
                     for j in range(len(list_orders[i])):
-                        f.write(str(list_orders[i][j])+',')
+                        f.write(str(list_orders[i][j]) + ',')
                     f.write('\n')
-                QMessageBox.information(self,'保存成功','数据已保存至'+file)
+                QMessageBox.information(self, '保存成功', '数据已保存至' + file)
         else:
-            QMessageBox.warning(self,'未选择文件夹',"请点击'添加指令'并选择存放目标图像的文件夹！")
+            QMessageBox.warning(self, '未选择文件夹', "请点击'添加指令'并选择存放目标图像的文件夹！")
 
     def clear_database(self):
         """清空数据库"""
-        con=sqlite3.connect('命令集.db')
-        cursor=con.cursor()
+        con = sqlite3.connect('命令集.db')
+        cursor = con.cursor()
         cursor.execute('delete from 命令 where ID<>-1')
         con.commit()
         con.close()
 
-    def closeEvent(self,event):
-        choice=QMessageBox.question(self,"提示","确定退出并清空所有指令？")
-        if choice==QMessageBox.Yes:
+    def closeEvent(self, event):
+        choice = QMessageBox.question(self, "提示", "确定退出并清空所有指令？")
+        if choice == QMessageBox.Yes:
             event.accept()
         else:
             event.ignore()
@@ -191,12 +192,45 @@ class Main_window(QMainWindow, Ui_MainWindow):
 
     def clear_table(self):
         """清空表格和数据库"""
-        choice=QMessageBox.question(self,"提示","确认清除所有指令吗？")
-        if choice==QMessageBox.Yes:
+        choice = QMessageBox.question(self, "提示", "确认清除所有指令吗？")
+        if choice == QMessageBox.Yes:
             self.clear_database()
             self.get_data()
         else:
             pass
+
+    def data_import(self):
+        """导入数据功能"""
+        data_file_path = QFileDialog.getOpenFileName(self, "请选择'命令集.txt'", '', "(*.txt)")
+        # 获取命令集文件夹路径
+        self.dialog_1.filePath='/'.join(data_file_path[0].split('/')[0:-1])
+        self.dialog_1.select_file(1)
+        # 清空数据库并导入新数据
+        if data_file_path[0] != '':
+            self.clear_database()
+            with open(data_file_path[0], 'r', encoding='utf-8') as f:
+                list_order = f.readlines()
+                print(list_order)
+                for i in list_order:
+                    j = i.split(',')
+                    if len(j) == 6:
+                        # 将txt文本转化为数据库对应参数
+                        id = int(j[0])
+                        image_name = j[1]
+                        instruction = j[2]
+                        parameter = j[3]
+                        repeat_number = int(j[4])
+                        # 连接数据库，插入数据
+                        con = sqlite3.connect('命令集.db')
+                        cursor = con.cursor()
+                        try:
+                            cursor.execute('insert into 命令(ID,图像名称,键鼠命令,参数,重复次数) values(?,?,?,?,?)',
+                                       (id, image_name, instruction, parameter, repeat_number))
+                        except sqlite3.IntegrityError:
+                            pass
+                        con.commit()
+                        con.close()
+            self.get_data()
 
 
 class Dialog(QWidget, Ui_Form):
@@ -206,18 +240,19 @@ class Dialog(QWidget, Ui_Form):
         super().__init__()
         # 初始化窗体
         self.setupUi(self)
-        self.pushButton_3.clicked.connect(self.select_file)
+        self.pushButton_3.clicked.connect(lambda:self.select_file(0))
         self.spinBox_2.setValue(1)
         self.pushButton.clicked.connect(self.save_data)
         self.filePath = ''
 
-    def select_file(self):
+    def select_file(self,judge):
         """选择文件夹并返回文件夹名称"""
-        self.filePath = QFileDialog.getExistingDirectory(self, "选择存储目标图像的文件夹")
+        if judge==0:
+            self.filePath = QFileDialog.getExistingDirectory(self, "选择存储目标图像的文件夹")
         try:
             images_name = os.listdir(self.filePath)
         except FileNotFoundError:
-            images_name=[]
+            images_name = []
         # 去除文件夹中非png文件名称
         for i in range(len(images_name) - 1, -1, -1):
             if ".png" not in images_name[i]:
