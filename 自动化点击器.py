@@ -9,6 +9,7 @@ from 窗体.add_instruction import Ui_Form
 from 窗体.mainwindow import Ui_MainWindow
 import sys
 import os
+from main_work import mainWork
 
 
 class Main_window(QMainWindow, Ui_MainWindow):
@@ -50,6 +51,8 @@ class Main_window(QMainWindow, Ui_MainWindow):
         self.toolButton_6.clicked.connect(self.clear_table)
         # 导入数据按钮
         self.actionf.triggered.connect(self.data_import)
+        # 主窗体开始按钮
+        self.pushButton_5.clicked.connect(self.start)
 
     def show_dialog(self):
         self.dialog_1.show()
@@ -232,6 +235,10 @@ class Main_window(QMainWindow, Ui_MainWindow):
                         con.close()
             self.get_data()
 
+    def start(self):
+        """主窗体开始按钮"""
+        mainWork(self.dialog_1.filePath)
+
 
 class Dialog(QWidget, Ui_Form):
     """添加指令对话框"""
@@ -244,6 +251,8 @@ class Dialog(QWidget, Ui_Form):
         self.spinBox_2.setValue(1)
         self.pushButton.clicked.connect(self.save_data)
         self.filePath = ''
+        # 设置子窗口出现阻塞主窗口
+        self.setWindowModality(Qt.ApplicationModal)
 
     def select_file(self,judge):
         """选择文件夹并返回文件夹名称"""

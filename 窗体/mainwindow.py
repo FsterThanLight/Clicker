@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(420, 697)
+        MainWindow.resize(474, 697)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout_4 = QtWidgets.QGridLayout(self.centralwidget)
@@ -155,7 +155,7 @@ class Ui_MainWindow(object):
         self.gridLayout_4.setRowStretch(2, 1)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 420, 26))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 474, 26))
         self.menubar.setObjectName("menubar")
         self.menu = QtWidgets.QMenu(self.menubar)
         self.menu.setObjectName("menu")
@@ -171,7 +171,7 @@ class Ui_MainWindow(object):
         MainWindow.setStatusBar(self.statusbar)
         self.toolBar = QtWidgets.QToolBar(MainWindow)
         self.toolBar.setObjectName("toolBar")
-        MainWindow.addToolBar(QtCore.Qt.TopToolBarArea, self.toolBar)
+        MainWindow.addToolBar(QtCore.Qt.LeftToolBarArea, self.toolBar)
         self.actionabout = QtWidgets.QAction(MainWindow)
         icon6 = QtGui.QIcon()
         icon6.addPixmap(QtGui.QPixmap(":/按钮图标/窗体/res/关于.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
