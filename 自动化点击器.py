@@ -10,6 +10,7 @@ from 窗体.mainwindow import Ui_MainWindow
 import sys
 import os
 from main_work import mainWork
+import time
 
 
 class Main_window(QMainWindow, Ui_MainWindow):
@@ -52,7 +53,15 @@ class Main_window(QMainWindow, Ui_MainWindow):
         # 导入数据按钮
         self.actionf.triggered.connect(self.data_import)
         # 主窗体开始按钮
+        self.start_statu=False
         self.pushButton_5.clicked.connect(self.start)
+
+    # def keyPressEvent(self, event):
+    #     """检测键盘按键事件"""
+    #     if event.key()==Qt.Key_Escape:
+    #         # 检测到退出键，结束任务
+    #         self.start_statu=False
+    #         self.textEdit.append('结束任务')
 
     def show_dialog(self):
         self.dialog_1.show()
@@ -237,7 +246,8 @@ class Main_window(QMainWindow, Ui_MainWindow):
 
     def start(self):
         """主窗体开始按钮"""
-        mainWork(self.dialog_1.filePath)
+        self.plainTextEdit.setPlaceholderText('开始任务')
+        mainWork(self.dialog_1.filePath,self)
 
 
 class Dialog(QWidget, Ui_Form):
