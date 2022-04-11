@@ -53,7 +53,7 @@ class Main_window(QMainWindow, Ui_MainWindow):
         # 导入数据按钮
         self.actionf.triggered.connect(self.data_import)
         # 主窗体开始按钮
-        self.start_statu=False
+        self.start_statu = False
         self.pushButton_5.clicked.connect(self.start)
 
     # def keyPressEvent(self, event):
@@ -215,7 +215,7 @@ class Main_window(QMainWindow, Ui_MainWindow):
         """导入数据功能"""
         data_file_path = QFileDialog.getOpenFileName(self, "请选择'命令集.txt'", '', "(*.txt)")
         # 获取命令集文件夹路径
-        self.dialog_1.filePath='/'.join(data_file_path[0].split('/')[0:-1])
+        self.dialog_1.filePath = '/'.join(data_file_path[0].split('/')[0:-1])
         self.dialog_1.select_file(1)
         # 清空数据库并导入新数据
         if data_file_path[0] != '':
@@ -237,7 +237,7 @@ class Main_window(QMainWindow, Ui_MainWindow):
                         cursor = con.cursor()
                         try:
                             cursor.execute('insert into 命令(ID,图像名称,键鼠命令,参数,重复次数) values(?,?,?,?,?)',
-                                       (id, image_name, instruction, parameter, repeat_number))
+                                           (id, image_name, instruction, parameter, repeat_number))
                         except sqlite3.IntegrityError:
                             pass
                         con.commit()
@@ -247,7 +247,16 @@ class Main_window(QMainWindow, Ui_MainWindow):
     def start(self):
         """主窗体开始按钮"""
         self.plainTextEdit.setPlaceholderText('开始任务')
-        mainWork(self.dialog_1.filePath,self)
+        mainWork(self.dialog_1.filePath, self)
+
+    def clear_plaintext(self, judge):
+        """清空处理框中的信息"""
+        if judge == 200:
+            lines = self.plainTextEdit.blockCount()
+            if lines > 200:
+                self.plainTextEdit.clear()
+        else:
+            self.plainTextEdit.clear()
 
 
 class Dialog(QWidget, Ui_Form):
@@ -257,16 +266,16 @@ class Dialog(QWidget, Ui_Form):
         super().__init__()
         # 初始化窗体
         self.setupUi(self)
-        self.pushButton_3.clicked.connect(lambda:self.select_file(0))
+        self.pushButton_3.clicked.connect(lambda: self.select_file(0))
         self.spinBox_2.setValue(1)
         self.pushButton.clicked.connect(self.save_data)
         self.filePath = ''
         # 设置子窗口出现阻塞主窗口
         self.setWindowModality(Qt.ApplicationModal)
 
-    def select_file(self,judge):
+    def select_file(self, judge):
         """选择文件夹并返回文件夹名称"""
-        if judge==0:
+        if judge == 0:
             self.filePath = QFileDialog.getExistingDirectory(self, "选择存储目标图像的文件夹")
         try:
             images_name = os.listdir(self.filePath)
