@@ -1,15 +1,17 @@
-import threading
-import keyboard
+import sys
 
-def abc(x):
-    """键盘事件，退出任务、开始任务、暂停恢复任务"""
-    b = keyboard.KeyboardEvent('down', 31, 'space')
-    if x.event_type == 'down' and x.name == b.name:
-        print("你按下了退出键")
-        event.set()
+from 窗体.test import Ui_test
+from PyQt5.QtCore import QTimer
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget
 
-keyboard.hook(abc)
-event = threading.Event()
-print('...部分代码...')
-event.wait(10)
-print('...剩下的代码...')
+
+class Test(QWidget, Ui_test):
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
+
+if __name__=="__main__":
+    app=QApplication([])
+    test=Test()
+    test.show()
+    sys.exit(app.exec_())

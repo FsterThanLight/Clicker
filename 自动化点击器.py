@@ -1,7 +1,9 @@
+import threading
+
 import pyautogui
 import pyperclip
 import sqlite3
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt,QTimer
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, \
     QFileDialog, QTableWidgetItem, QMessageBox, QComboBox, QHeaderView
@@ -53,8 +55,11 @@ class Main_window(QMainWindow, Ui_MainWindow):
         # 导入数据按钮
         self.actionf.triggered.connect(self.data_import)
         # 主窗体开始按钮
+        self.lcdNumber=1
         self.start_statu = False
+        self.timer = QTimer(self)
         self.pushButton_5.clicked.connect(self.start)
+
 
     # def keyPressEvent(self, event):
     #     """检测键盘按键事件"""
@@ -248,6 +253,7 @@ class Main_window(QMainWindow, Ui_MainWindow):
         """主窗体开始按钮"""
         self.plainTextEdit.setPlaceholderText('开始任务')
         mainWork(self.dialog_1.filePath, self)
+
 
     def clear_plaintext(self, judge):
         """清空处理框中的信息"""
