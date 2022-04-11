@@ -1,9 +1,5 @@
-import threading
-
-import pyautogui
-import pyperclip
 import sqlite3
-from PyQt5.QtCore import Qt,QTimer
+from PyQt5.QtCore import Qt, QTimer
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, \
     QFileDialog, QTableWidgetItem, QMessageBox, QComboBox, QHeaderView
@@ -32,6 +28,7 @@ class Main_window(QMainWindow, Ui_MainWindow):
         self.tableWidget.setColumnWidth(4, 50)
         self.tableWidget.setColumnWidth(3, 50)
         self.tableWidget.setColumnWidth(0, 100)
+        self.plainTextEdit.setPlaceholderText('欢迎使用')
         # 添加指令按钮
         self.toolButton.clicked.connect(self.show_dialog)
         # 获取数据，修改按钮
@@ -55,11 +52,11 @@ class Main_window(QMainWindow, Ui_MainWindow):
         # 导入数据按钮
         self.actionf.triggered.connect(self.data_import)
         # 主窗体开始按钮
-        self.lcdNumber=1
-        self.start_statu = False
-        self.timer = QTimer(self)
         self.pushButton_5.clicked.connect(self.start)
-
+        # 实时计时
+        self.lcd_time=1
+        self.timer=QTimer()
+        self.timer.timeout.connect(lambda: self.display_running_time('显示时间'))
 
     # def keyPressEvent(self, event):
     #     """检测键盘按键事件"""
@@ -251,9 +248,7 @@ class Main_window(QMainWindow, Ui_MainWindow):
 
     def start(self):
         """主窗体开始按钮"""
-        self.plainTextEdit.setPlaceholderText('开始任务')
         mainWork(self.dialog_1.filePath, self)
-
 
     def clear_plaintext(self, judge):
         """清空处理框中的信息"""
@@ -263,6 +258,20 @@ class Main_window(QMainWindow, Ui_MainWindow):
                 self.plainTextEdit.clear()
         else:
             self.plainTextEdit.clear()
+
+    def display_running_time(self, judge):
+        """在主屏幕显示运行时长"""
+        if judge == "显示时间":
+            self.lcdNumber.display(self.lcd_time)
+            self.lcd_time += 1
+        elif judge == "开始计时":
+            self.timer.start(1000)
+        elif judge == "结束计时":
+            self.lcd_time = 0
+            self.timer.stop()
+            self.lcdNumber.display(self.lcd_time)
+        elif judge == "暂停计时":
+            self.timer.stop()
 
 
 class Dialog(QWidget, Ui_Form):

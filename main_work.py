@@ -13,7 +13,6 @@ event = threading.Event()
 
 def mouseclick(click_times, lOrR, img, reTry, main_window, number):
     """定义鼠标时间"""
-
     # 4个参数：鼠标点击时间，按钮类型（左键右键中键），图片名称，重复次数
     def execute_click(click_times, lOrR, img, main_window, number):
         location = pyautogui.locateCenterOnScreen(img, confidence=0.9)
@@ -70,7 +69,7 @@ def execute_instructions(file_path, list_instructions, main_window, number):
 
 def mainWork(file_path, main_window):
     """参数为图片名称"""
-    global start_state, suspended, lcdnumber
+    global start_state, suspended
     # 设置终止状态为true，暂停功能为false
     start_state = True
     suspended = False
@@ -81,42 +80,47 @@ def mainWork(file_path, main_window):
     list_instructions = cursor.fetchall()
     con.close()
     # 执行数据库指令
-    try:
-        # 检测主窗体无限循环按钮是否选中，并执行命令
-        keyboard.hook(abc)
-        if main_window.radioButton.isChecked():
-            # 在窗体中显示循环次数
-            number = 1
-            while start_state:
-                # 如果状态为True执行无限循环
-                execute_instructions(file_path, list_instructions, main_window, number)
-                if not start_state:
-                    main_window.plainTextEdit.appendPlainText('结束任务')
-                    break
-                if suspended:
-                    event.clear()
-                    event.wait(86400)
-                number += 1
-                time.sleep(0.1)
-        elif main_window.radioButton_2.isChecked():
-            number = 1
-            # 如果状态为有限次循环
-            repeat_number = main_window.spinBox.value()
-            while number <= repeat_number and start_state:
-                execute_instructions(file_path, list_instructions, main_window, number)
-                if not start_state:
-                    main_window.plainTextEdit.appendPlainText('结束任务')
-                    break
-                if suspended:
-                    event.clear()
-                    event.wait(86400)
-                number += 1
-                time.sleep(0.1)
-            main_window.plainTextEdit.appendPlainText('结束任务')
-        elif not main_window.radioButton.isChecked() and not main_window.radioButton_2.isChecked():
-            QMessageBox.information(main_window, "提示", "请设置执行循环次数！")
-    except OSError:
-        QMessageBox.critical(main_window, '错误', '目标图像文件夹或图片命名暂不支持中文！')
+    if len(list_instructions)!=0:
+        try:
+            # 检测主窗体无限循环按钮是否选中，并执行命令
+            keyboard.hook(abc)
+            if main_window.radioButton.isChecked():
+                main_window.display_running_time('开始计时')
+                # 在窗体中显示循环次数
+                number = 1
+                while start_state:
+                    # 如果状态为True执行无限循环
+                    execute_instructions(file_path, list_instructions, main_window, number)
+                    if not start_state:
+                        main_window.plainTextEdit.appendPlainText('结束任务')
+                        main_window.display_running_time('结束计时')
+                        break
+                    if suspended:
+                        event.clear()
+                        event.wait(86400)
+                    number += 1
+                    time.sleep(0.1)
+            elif main_window.radioButton_2.isChecked():
+                main_window.display_running_time('开始计时')
+                number = 1
+                # 如果状态为有限次循环
+                repeat_number = main_window.spinBox.value()
+                while number <= repeat_number and start_state:
+                    execute_instructions(file_path, list_instructions, main_window, number)
+                    if not start_state:
+                        main_window.plainTextEdit.appendPlainText('结束任务')
+                        main_window.display_running_time('结束计时')
+                        break
+                    if suspended:
+                        event.clear()
+                        event.wait(86400)
+                    number += 1
+                    time.sleep(0.1)
+                main_window.plainTextEdit.appendPlainText('结束任务')
+            elif not main_window.radioButton.isChecked() and not main_window.radioButton_2.isChecked():
+                QMessageBox.information(main_window, "提示", "请设置执行循环次数！")
+        except OSError:
+            QMessageBox.critical(main_window, '错误', '目标图像文件夹或图片命名暂不支持中文！')
 
 
 def abc(x):
