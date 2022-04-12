@@ -5,10 +5,15 @@ import pyautogui
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QMessageBox
 import threading
+import sys
 
 start_state = True
 suspended = True
 event = threading.Event()
+
+def exit_main_work():
+    sys.exit()
+
 
 
 def mouseclick(click_times, lOrR, img, reTry, main_window, number):
@@ -64,7 +69,7 @@ def execute_instructions(file_path, list_instructions, main_window, number):
         elif cmd_type == '右键单击':
             img = (file_path + "/" + list_instructions[i][1]).replace('/', '//')
             re_try = list_instructions[i][4]
-            mouseclick(2, 'right', img, re_try, main_window, number)
+            mouseclick(1, 'right', img, re_try, main_window, number)
 
 
 def mainWork(file_path, main_window):

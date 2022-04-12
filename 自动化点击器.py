@@ -7,7 +7,7 @@ from 窗体.add_instruction import Ui_Form
 from 窗体.mainwindow import Ui_MainWindow
 import sys
 import os
-from main_work import mainWork
+from main_work import mainWork,exit_main_work
 import time
 
 
@@ -199,10 +199,12 @@ class Main_window(QMainWindow, Ui_MainWindow):
     def closeEvent(self, event):
         choice = QMessageBox.question(self, "提示", "确定退出并清空所有指令？")
         if choice == QMessageBox.Yes:
+            # 退出终止后台进程并清空数据库
             event.accept()
+            self.clear_database()
+            exit_main_work()
         else:
             event.ignore()
-        self.clear_database()
 
     def clear_table(self):
         """清空表格和数据库"""
