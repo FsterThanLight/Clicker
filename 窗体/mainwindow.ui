@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>474</width>
-    <height>697</height>
+    <width>472</width>
+    <height>687</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -388,7 +388,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>474</width>
+     <width>472</width>
      <height>26</height>
     </rect>
    </property>
@@ -413,11 +413,17 @@
     </property>
     <addaction name="actions_2"/>
    </widget>
+   <widget class="QMenu" name="menu_3">
+    <property name="title">
+     <string>视图</string>
+    </property>
+    <addaction name="actiong"/>
+   </widget>
    <addaction name="menu"/>
+   <addaction name="menu_3"/>
    <addaction name="menu_4"/>
    <addaction name="menu_2"/>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
   <widget class="QToolBar" name="toolBar">
    <property name="windowTitle">
     <string>toolBar</string>
@@ -497,6 +503,11 @@
    </property>
    <property name="text">
     <string>设置</string>
+   </property>
+  </action>
+  <action name="actiong">
+   <property name="text">
+    <string>工具栏</string>
    </property>
   </action>
  </widget>

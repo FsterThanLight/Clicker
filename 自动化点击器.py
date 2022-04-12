@@ -62,6 +62,8 @@ class Main_window(QMainWindow, Ui_MainWindow):
         self.timer.timeout.connect(lambda: self.display_running_time('显示时间'))
         # 打开设置
         self.actions_2.triggered.connect(self.show_setting)
+        # 结束任务按钮
+        self.pushButton_6.clicked.connect(exit_main_work)
 
     # def keyPressEvent(self, event):
     #     """检测键盘按键事件"""
@@ -372,10 +374,10 @@ class Setting(QWidget, Ui_Setting):
         interval = self.horizontalSlider_2.value() / 1000
         duration = self.horizontalSlider_3.value() / 1000
         time_sleep = self.horizontalSlider_4.value() / 1000
-        model=1
+        model = 1
         if self.radioButton_2.isChecked():
-            model=2
-        list_setting_value = [image_accuracy, interval, duration, time_sleep,model]
+            model = 2
+        list_setting_value = [image_accuracy, interval, duration, time_sleep, model]
         # 打开数据库并更新设置数据
         con = sqlite3.connect('命令集.db')
         cursor = con.cursor()
@@ -387,7 +389,7 @@ class Setting(QWidget, Ui_Setting):
     def save_setting(self):
         """保存按钮事件"""
         self.save_setting_date()
-        QMessageBox.information(self,'提醒','保存成功！')
+        QMessageBox.information(self, '提醒', '保存成功！')
         self.close()
 
     def restore_default(self):
@@ -402,19 +404,19 @@ class Setting(QWidget, Ui_Setting):
     def load_setting_data(self):
         """加载设置数据库中的数据"""
         # 连接数据库存入列表
-        con=sqlite3.connect('命令集.db')
-        cursor=con.cursor()
+        con = sqlite3.connect('命令集.db')
+        cursor = con.cursor()
         cursor.execute('select * from 设置')
-        list_setting_data=cursor.fetchall()
+        list_setting_data = cursor.fetchall()
         con.close()
         print(list_setting_data)
         # 设置控件数据为数据库保存的数据
-        self.horizontalSlider.setValue(int(list_setting_data[0][1]*10))
-        self.horizontalSlider_2.setValue(int(list_setting_data[1][1]*1000))
-        self.horizontalSlider_3.setValue(int(list_setting_data[2][1]*1000))
-        self.horizontalSlider_4.setValue(int(list_setting_data[3][1]*1000))
+        self.horizontalSlider.setValue(int(list_setting_data[0][1] * 10))
+        self.horizontalSlider_2.setValue(int(list_setting_data[1][1] * 1000))
+        self.horizontalSlider_3.setValue(int(list_setting_data[2][1] * 1000))
+        self.horizontalSlider_4.setValue(int(list_setting_data[3][1] * 1000))
         # 极速模式
-        if int(list_setting_data[4][1])==2:
+        if int(list_setting_data[4][1]) == 2:
             self.radioButton_2.setChecked(True)
             self.pushButton_3.setEnabled(False)
             self.horizontalSlider_2.setEnabled(False)
@@ -436,9 +438,6 @@ class Setting(QWidget, Ui_Setting):
         self.horizontalSlider_4.setEnabled(True)
         self.pushButton_3.setEnabled(True)
         self.save_setting_date()
-
-
-
 
 
 if __name__ == "__main__":
