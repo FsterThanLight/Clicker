@@ -355,16 +355,14 @@ class Setting(QWidget, Ui_Setting):
         # 初始化窗体
         self.setupUi(self)
         self.setWindowModality(Qt.ApplicationModal)
-        # 关闭窗口
-        self.pushButton_2.clicked.connect(self.close_setting)
         # 点击保存（应用）按钮
         self.pushButton.clicked.connect(self.save_setting)
         # 点击恢复至默认按钮
         self.pushButton_3.clicked.connect(self.restore_default)
-
-    def close_setting(self):
-        """关闭窗口"""
-        self.close()
+        # 开启极速模式
+        self.radioButton_2.clicked.connect(self.speed_mode)
+        # 切换普通模式
+        self.radioButton.clicked.connect(self.normal_mode)
 
     def save_setting_date(self):
         """保存设置数据"""
@@ -374,9 +372,8 @@ class Setting(QWidget, Ui_Setting):
         interval = self.horizontalSlider_2.value() / 1000
         duration = self.horizontalSlider_3.value() / 1000
         time_sleep = self.horizontalSlider_4.value() / 1000
-        if self.radioButton.isChecked():
-            model=1
-        else:
+        model=1
+        if self.radioButton_2.isChecked():
             model=2
         list_setting_value = [image_accuracy, interval, duration, time_sleep,model]
         # 打开数据库并更新设置数据
@@ -390,6 +387,7 @@ class Setting(QWidget, Ui_Setting):
     def save_setting(self):
         """保存按钮事件"""
         self.save_setting_date()
+        QMessageBox.information(self,'提醒','保存成功！')
         self.close()
 
     def restore_default(self):
@@ -409,8 +407,36 @@ class Setting(QWidget, Ui_Setting):
         cursor.execute('select * from 设置')
         list_setting_data=cursor.fetchall()
         con.close()
-
         print(list_setting_data)
+        # 设置控件数据为数据库保存的数据
+        self.horizontalSlider.setValue(int(list_setting_data[0][1]*10))
+        self.horizontalSlider_2.setValue(int(list_setting_data[1][1]*1000))
+        self.horizontalSlider_3.setValue(int(list_setting_data[2][1]*1000))
+        self.horizontalSlider_4.setValue(int(list_setting_data[3][1]*1000))
+        # 极速模式
+        if int(list_setting_data[4][1])==2:
+            self.radioButton_2.setChecked(True)
+            self.pushButton_3.setEnabled(False)
+            self.horizontalSlider_2.setEnabled(False)
+            self.horizontalSlider_4.setEnabled(False)
+
+    def speed_mode(self):
+        """极速模式开启"""
+        self.horizontalSlider_2.setValue(0)
+        self.horizontalSlider_3.setValue(100)
+        self.horizontalSlider_4.setValue(0)
+        self.horizontalSlider_2.setEnabled(False)
+        self.horizontalSlider_4.setEnabled(False)
+        self.pushButton_3.setEnabled(False)
+        self.save_setting_date()
+
+    def normal_mode(self):
+        """切换普通模式"""
+        self.horizontalSlider_2.setEnabled(True)
+        self.horizontalSlider_4.setEnabled(True)
+        self.pushButton_3.setEnabled(True)
+        self.save_setting_date()
+
 
 
 

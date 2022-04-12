@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>339</width>
-    <height>369</height>
+    <width>315</width>
+    <height>464</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -187,6 +187,13 @@
    </item>
    <item row="1" column="0" colspan="3">
     <layout class="QGridLayout" name="gridLayout_2">
+     <item row="4" column="0" colspan="4">
+      <widget class="QLabel" name="label_13">
+       <property name="text">
+        <string>指执行指令如鼠标点击的持续时间</string>
+       </property>
+      </widget>
+     </item>
      <item row="0" column="0" colspan="2">
       <widget class="QLabel" name="label_3">
        <property name="font">
@@ -200,46 +207,13 @@
        </property>
       </widget>
      </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="label_5">
-       <property name="font">
-        <font>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
+     <item row="6" column="0" colspan="4">
+      <widget class="QLabel" name="label_12">
        <property name="text">
-        <string>时间间隔：</string>
+        <string>指每完成一次指令至下一次指令开始的时间间隔</string>
        </property>
-      </widget>
-     </item>
-     <item row="3" column="3" colspan="2">
-      <widget class="QLabel" name="label_8">
-       <property name="text">
-        <string>持续（毫秒）</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="2">
-      <widget class="QSlider" name="horizontalSlider">
-       <property name="maximum">
-        <number>10</number>
-       </property>
-       <property name="singleStep">
-        <number>1</number>
-       </property>
-       <property name="value">
-        <number>9</number>
-       </property>
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="3" colspan="2">
-      <widget class="QLabel" name="label_10">
-       <property name="text">
-        <string>暂停（毫秒）</string>
+       <property name="wordWrap">
+        <bool>true</bool>
        </property>
       </widget>
      </item>
@@ -256,26 +230,34 @@
        </property>
       </widget>
      </item>
-     <item row="3" column="1" colspan="2">
-      <widget class="QSlider" name="horizontalSlider_3">
-       <property name="maximum">
-        <number>1000</number>
-       </property>
-       <property name="singleStep">
-        <number>100</number>
-       </property>
-       <property name="pageStep">
-        <number>100</number>
-       </property>
-       <property name="value">
-        <number>200</number>
-       </property>
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+     <item row="1" column="4">
+      <widget class="QLabel" name="label_6">
+       <property name="text">
+        <string>毫秒</string>
        </property>
       </widget>
      </item>
-     <item row="2" column="0" colspan="5">
+     <item row="5" column="0">
+      <widget class="QLabel" name="label_9">
+       <property name="font">
+        <font>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>暂停时间：</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="4">
+      <widget class="QLabel" name="label_8">
+       <property name="text">
+        <string>毫秒</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0" colspan="4">
       <widget class="QLabel" name="label_11">
        <property name="text">
         <string>指鼠标双击的时间间隔</string>
@@ -285,21 +267,50 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="3" colspan="2">
+     <item row="0" column="4">
       <widget class="QLabel" name="label_4">
        <property name="text">
         <string>精度</string>
        </property>
       </widget>
      </item>
-     <item row="1" column="3" colspan="2">
-      <widget class="QLabel" name="label_6">
+     <item row="1" column="0">
+      <widget class="QLabel" name="label_5">
+       <property name="font">
+        <font>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
        <property name="text">
-        <string>间隔（毫秒）</string>
+        <string>时间间隔：</string>
        </property>
       </widget>
      </item>
-     <item row="1" column="1" colspan="2">
+     <item row="5" column="4">
+      <widget class="QLabel" name="label_10">
+       <property name="text">
+        <string>毫秒</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="2" colspan="2">
+      <widget class="QSlider" name="horizontalSlider">
+       <property name="maximum">
+        <number>10</number>
+       </property>
+       <property name="singleStep">
+        <number>1</number>
+       </property>
+       <property name="value">
+        <number>9</number>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1" colspan="3">
       <widget class="QSlider" name="horizontalSlider_2">
        <property name="maximum">
         <number>1000</number>
@@ -318,20 +329,26 @@
        </property>
       </widget>
      </item>
-     <item row="5" column="0">
-      <widget class="QLabel" name="label_9">
-       <property name="font">
-        <font>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
+     <item row="3" column="1" colspan="3">
+      <widget class="QSlider" name="horizontalSlider_3">
+       <property name="maximum">
+        <number>1000</number>
        </property>
-       <property name="text">
-        <string>暂停时间：</string>
+       <property name="singleStep">
+        <number>100</number>
+       </property>
+       <property name="pageStep">
+        <number>100</number>
+       </property>
+       <property name="value">
+        <number>200</number>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
        </property>
       </widget>
      </item>
-     <item row="5" column="1" colspan="2">
+     <item row="5" column="1" colspan="3">
       <widget class="QSlider" name="horizontalSlider_4">
        <property name="maximum">
         <number>1000</number>
@@ -347,20 +364,6 @@
        </property>
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
-       </property>
-      </widget>
-     </item>
-     <item row="6" column="0" colspan="5">
-      <widget class="QLabel" name="label_12">
-       <property name="text">
-        <string>指每完成一次指令至下一次指令开始的时间间隔</string>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="0" colspan="5">
-      <widget class="QLabel" name="label_13">
-       <property name="text">
-        <string>指执行指令如鼠标点击的持续时间</string>
        </property>
       </widget>
      </item>
@@ -404,8 +407,8 @@
      <y>230</y>
     </hint>
     <hint type="destinationlabel">
-     <x>243</x>
-     <y>228</y>
+     <x>302</x>
+     <y>240</y>
     </hint>
    </hints>
   </connection>
@@ -416,12 +419,12 @@
    <slot>setNum(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>155</x>
-     <y>290</y>
+     <x>248</x>
+     <y>269</y>
     </hint>
     <hint type="destinationlabel">
-     <x>245</x>
-     <y>287</y>
+     <x>302</x>
+     <y>269</y>
     </hint>
    </hints>
   </connection>
@@ -432,12 +435,12 @@
    <slot>setNum(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>160</x>
-     <y>340</y>
+     <x>248</x>
+     <y>323</y>
     </hint>
     <hint type="destinationlabel">
-     <x>275</x>
-     <y>337</y>
+     <x>302</x>
+     <y>323</y>
     </hint>
    </hints>
   </connection>
@@ -448,12 +451,28 @@
    <slot>setNum(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>155</x>
-     <y>390</y>
+     <x>248</x>
+     <y>377</y>
     </hint>
     <hint type="destinationlabel">
-     <x>330</x>
-     <y>387</y>
+     <x>302</x>
+     <y>377</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_2</sender>
+   <signal>clicked()</signal>
+   <receiver>Setting</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>147</x>
+     <y>442</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>470</y>
     </hint>
    </hints>
   </connection>
