@@ -5,9 +5,10 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, \
     QFileDialog, QTableWidgetItem, QMessageBox, QComboBox, QHeaderView
 from 窗体.add_instruction import Ui_Form
 from 窗体.mainwindow import Ui_MainWindow
+from 窗体.setting import Ui_Setting
 import sys
 import os
-from main_work import mainWork,exit_main_work
+from main_work import mainWork, exit_main_work
 import time
 
 
@@ -20,6 +21,8 @@ class Main_window(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         # 实例化子窗口1
         self.dialog_1 = Dialog()
+        # 实例化设置窗口
+        self.setting = Setting()
         # 设置表格列宽自动变化，并使第5列列宽固定
         self.tableWidget.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         self.tableWidget.horizontalHeader().setSectionResizeMode(0, QHeaderView.Interactive)
@@ -54,9 +57,11 @@ class Main_window(QMainWindow, Ui_MainWindow):
         # 主窗体开始按钮
         self.pushButton_5.clicked.connect(self.start)
         # 实时计时
-        self.lcd_time=1
-        self.timer=QTimer()
+        self.lcd_time = 1
+        self.timer = QTimer()
         self.timer.timeout.connect(lambda: self.display_running_time('显示时间'))
+        # 打开设置
+        self.actions_2.triggered.connect(self.show_setting)
 
     # def keyPressEvent(self, event):
     #     """检测键盘按键事件"""
@@ -68,6 +73,11 @@ class Main_window(QMainWindow, Ui_MainWindow):
     def show_dialog(self):
         self.dialog_1.show()
         print('子窗口开启')
+
+    def show_setting(self):
+        self.setting.show()
+        self.setting.load_setting_data()
+        print('设置窗口打开')
 
     def get_data(self):
         """从数据库获取数据并存入表格"""
@@ -335,6 +345,74 @@ class Dialog(QWidget, Ui_Form):
         con.commit()
         con.close()
         self.close()
+
+
+class Setting(QWidget, Ui_Setting):
+    """添加设置窗口"""
+
+    def __init__(self):
+        super().__init__()
+        # 初始化窗体
+        self.setupUi(self)
+        self.setWindowModality(Qt.ApplicationModal)
+        # 关闭窗口
+        self.pushButton_2.clicked.connect(self.close_setting)
+        # 点击保存（应用）按钮
+        self.pushButton.clicked.connect(self.save_setting)
+        # 点击恢复至默认按钮
+        self.pushButton_3.clicked.connect(self.restore_default)
+
+    def close_setting(self):
+        """关闭窗口"""
+        self.close()
+
+    def save_setting_date(self):
+        """保存设置数据"""
+        # 重窗体控件提取数据并放入列表
+        list_setting_name = ['图像匹配精度', '时间间隔', '持续时间', '暂停时间', '模式']
+        image_accuracy = self.horizontalSlider.value() / 10
+        interval = self.horizontalSlider_2.value() / 1000
+        duration = self.horizontalSlider_3.value() / 1000
+        time_sleep = self.horizontalSlider_4.value() / 1000
+        if self.radioButton.isChecked():
+            model=1
+        else:
+            model=2
+        list_setting_value = [image_accuracy, interval, duration, time_sleep,model]
+        # 打开数据库并更新设置数据
+        con = sqlite3.connect('命令集.db')
+        cursor = con.cursor()
+        for i in range(len(list_setting_name)):
+            cursor.execute("update 设置 set 值=? where 设置类型=?", (list_setting_value[i], list_setting_name[i]))
+            con.commit()
+        con.close()
+
+    def save_setting(self):
+        """保存按钮事件"""
+        self.save_setting_date()
+        self.close()
+
+    def restore_default(self):
+        """设置恢复至默认"""
+        self.radioButton.isChecked()
+        self.horizontalSlider.setValue(9)
+        self.horizontalSlider_2.setValue(200)
+        self.horizontalSlider_3.setValue(200)
+        self.horizontalSlider_4.setValue(100)
+        self.save_setting_date()
+
+    def load_setting_data(self):
+        """加载设置数据库中的数据"""
+        # 连接数据库存入列表
+        con=sqlite3.connect('命令集.db')
+        cursor=con.cursor()
+        cursor.execute('select * from 设置')
+        list_setting_data=cursor.fetchall()
+        con.close()
+
+        print(list_setting_data)
+
+
 
 
 if __name__ == "__main__":

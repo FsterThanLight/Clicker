@@ -70,6 +70,11 @@ def execute_instructions(file_path, list_instructions, main_window, number):
             img = (file_path + "/" + list_instructions[i][1]).replace('/', '//')
             re_try = list_instructions[i][4]
             mouseclick(1, 'right', img, re_try, main_window, number)
+        elif cmd_type=='等待':
+            wait_time=list_instructions[i][3]
+            main_window.plainTextEdit.appendPlainText('等待中...时长' + str(wait_time)+'秒')
+            time.sleep(wait_time)
+
 
 
 def mainWork(file_path, main_window):

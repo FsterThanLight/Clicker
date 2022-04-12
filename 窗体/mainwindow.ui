@@ -411,14 +411,9 @@
     <property name="title">
      <string>工具</string>
     </property>
-   </widget>
-   <widget class="QMenu" name="menu_3">
-    <property name="title">
-     <string>设置</string>
-    </property>
+    <addaction name="actions_2"/>
    </widget>
    <addaction name="menu"/>
-   <addaction name="menu_3"/>
    <addaction name="menu_4"/>
    <addaction name="menu_2"/>
   </widget>
@@ -436,7 +431,7 @@
    <addaction name="actionb"/>
    <addaction name="actionf"/>
    <addaction name="separator"/>
-   <addaction name="setting"/>
+   <addaction name="actions_2"/>
    <addaction name="actions"/>
    <addaction name="actionj"/>
    <addaction name="actionabout"/>
@@ -493,6 +488,15 @@
    </property>
    <property name="text">
     <string>导入指令</string>
+   </property>
+  </action>
+  <action name="actions_2">
+   <property name="icon">
+    <iconset resource="../images.qrc">
+     <normaloff>:/按钮图标/窗体/res/设置.png</normaloff>:/按钮图标/窗体/res/设置.png</iconset>
+   </property>
+   <property name="text">
+    <string>设置</string>
    </property>
   </action>
  </widget>
