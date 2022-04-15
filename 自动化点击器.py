@@ -1,4 +1,8 @@
+import json
 import sqlite3
+
+import cryptocode
+import requests
 from PyQt5.QtCore import Qt, QTimer
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, \
@@ -11,6 +15,41 @@ import os
 from main_work import mainWork, exit_main_work
 import time
 
+headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
+                         'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.88 Safari/537.36'}
+
+
+def load_json():
+    """从json文件中加载更新网址和保留文件名"""
+    file_name = 'update_data.json'
+    with open(file_name, 'r', encoding='utf8') as f:
+        data = json.load(f)
+    url = cryptocode.decrypt(data['url_encrypt'], '123456')
+    list_keep = []
+    for v in data.values():
+        list_keep.append(v)
+    # print(url)
+    # print(list_keep)
+    return url, list_keep[1:]
+
+
+def get_download_address(main_window,warning):
+    """获取下载地址、版本信息、更新说明"""
+    global headers
+    url, files = load_json()
+    print(url)
+    try:
+        res = requests.get(url, headers=headers, timeout=0.2)
+        info = cryptocode.decrypt(res.text, '123456')
+        list_1 = info.split('=')
+        return list_1[0], list_1[1], list_1[2], list_1[3]
+    except requests.exceptions.ConnectionError:
+        if warning==1:
+            QMessageBox.critical(main_window, "更新检查", "无法获取更新信息，请检查网络。")
+            time.sleep(1)
+        else:
+            pass
+
 
 class Main_window(QMainWindow, Ui_MainWindow):
     """主窗口"""
@@ -19,6 +58,8 @@ class Main_window(QMainWindow, Ui_MainWindow):
         super().__init__()
         # 初始化窗体
         self.setupUi(self)
+        # 软件版本
+        self.version = 'v0.1'
         # 实例化子窗口1
         self.dialog_1 = Dialog()
         # 实例化设置窗口
@@ -64,6 +105,8 @@ class Main_window(QMainWindow, Ui_MainWindow):
         self.actions_2.triggered.connect(self.show_setting)
         # 结束任务按钮
         self.pushButton_6.clicked.connect(exit_main_work)
+        # 检查更新按钮（菜单栏）
+        self.actionj.triggered.connect(lambda:self.check_update(1))
 
     # def keyPressEvent(self, event):
     #     """检测键盘按键事件"""
@@ -287,6 +330,28 @@ class Main_window(QMainWindow, Ui_MainWindow):
         elif judge == "暂停计时":
             self.timer.stop()
 
+    def check_update(self,warning):
+        """检查更新功能"""
+        try:
+            address, version, info, name = get_download_address(self,warning)
+            print(version)
+            if version != self.version:
+                x = QMessageBox.information(self, "更新检查", "已发现最新版" + version + "\n是否更新？",
+                                            QMessageBox.Yes | QMessageBox.No,
+                                            QMessageBox.Yes)
+                if x == QMessageBox.Yes:
+                    print('开始更新')
+                    # os.popen()
+                    sys.exit()
+
+            else:
+                if warning==1:
+                    QMessageBox.information(self, "更新检查", "当前" + self.version + "已是最新版本。")
+                else:
+                    pass
+        except TypeError:
+            pass
+
 
 class Dialog(QWidget, Ui_Form):
     """添加指令对话框"""
@@ -447,5 +512,7 @@ if __name__ == "__main__":
     main_window.setWindowIcon(QIcon('图标.ico'))
     # 显示窗体
     main_window.show()
+    # 打开窗口检查更新
+    main_window.check_update(0)
     # 显示添加对话框窗口
     sys.exit(app.exec_())
