@@ -250,6 +250,7 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "自动点击"))
         self.groupBox.setTitle(_translate("MainWindow", "处理状态"))
+        self.plainTextEdit.setPlaceholderText(_translate("MainWindow", "欢迎使用"))
         self.groupBox_2.setTitle(_translate("MainWindow", "指令集合"))
         self.toolButton_4.setText(_translate("MainWindow", "下移"))
         self.toolButton_2.setText(_translate("MainWindow", "删除"))

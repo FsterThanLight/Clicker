@@ -93,6 +93,9 @@
            </disabled>
           </palette>
          </property>
+         <property name="placeholderText">
+          <string>欢迎使用</string>
+         </property>
         </widget>
        </item>
       </layout>

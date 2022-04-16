@@ -65,14 +65,7 @@ class Main_window(QMainWindow, Ui_MainWindow):
         # 实例化设置窗口
         self.setting = Setting()
         # 设置表格列宽自动变化，并使第5列列宽固定
-        self.tableWidget.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
-        self.tableWidget.horizontalHeader().setSectionResizeMode(0, QHeaderView.Interactive)
-        self.tableWidget.horizontalHeader().setSectionResizeMode(4, QHeaderView.Fixed)
-        self.tableWidget.horizontalHeader().setSectionResizeMode(3, QHeaderView.Fixed)
-        self.tableWidget.setColumnWidth(4, 50)
-        self.tableWidget.setColumnWidth(3, 50)
-        self.tableWidget.setColumnWidth(0, 100)
-        self.plainTextEdit.setPlaceholderText('欢迎使用')
+        self.format_table()
         # 添加指令按钮
         self.toolButton.clicked.connect(self.show_dialog)
         # 获取数据，修改按钮
@@ -118,6 +111,16 @@ class Main_window(QMainWindow, Ui_MainWindow):
     def show_dialog(self):
         self.dialog_1.show()
         print('子窗口开启')
+
+    def format_table(self):
+        """设置主窗口表格格式"""
+        self.tableWidget.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        self.tableWidget.horizontalHeader().setSectionResizeMode(0, QHeaderView.Interactive)
+        self.tableWidget.horizontalHeader().setSectionResizeMode(4, QHeaderView.Fixed)
+        self.tableWidget.horizontalHeader().setSectionResizeMode(3, QHeaderView.Fixed)
+        self.tableWidget.setColumnWidth(4, 50)
+        self.tableWidget.setColumnWidth(3, 50)
+        self.tableWidget.setColumnWidth(0, 100)
 
     def show_setting(self):
         self.setting.show()
@@ -352,6 +355,16 @@ class Main_window(QMainWindow, Ui_MainWindow):
         except TypeError:
             pass
 
+    def main_show(self):
+        """显示窗体，并根据设置检查更新"""
+        self.show()
+        x=self.setting.checkBox.isChecked
+        print(x)
+        if self.setting.checkBox.isChecked():
+            self.check_update(0)
+        else:
+            pass
+
 
 class Dialog(QWidget, Ui_Form):
     """添加指令对话框"""
@@ -434,15 +447,19 @@ class Setting(QWidget, Ui_Setting):
     def save_setting_date(self):
         """保存设置数据"""
         # 重窗体控件提取数据并放入列表
-        list_setting_name = ['图像匹配精度', '时间间隔', '持续时间', '暂停时间', '模式']
+        list_setting_name = ['图像匹配精度', '时间间隔', '持续时间', '暂停时间', '模式','启动检查更新']
         image_accuracy = self.horizontalSlider.value() / 10
         interval = self.horizontalSlider_2.value() / 1000
         duration = self.horizontalSlider_3.value() / 1000
         time_sleep = self.horizontalSlider_4.value() / 1000
         model = 1
+        if self.checkBox.isChecked():
+            update_check=1
+        else:
+            update_check=0
         if self.radioButton_2.isChecked():
             model = 2
-        list_setting_value = [image_accuracy, interval, duration, time_sleep, model]
+        list_setting_value = [image_accuracy, interval, duration, time_sleep, model,update_check]
         # 打开数据库并更新设置数据
         con = sqlite3.connect('命令集.db')
         cursor = con.cursor()
@@ -486,6 +503,10 @@ class Setting(QWidget, Ui_Setting):
             self.pushButton_3.setEnabled(False)
             self.horizontalSlider_2.setEnabled(False)
             self.horizontalSlider_4.setEnabled(False)
+        if list_setting_data[5][1]==1:
+            self.checkBox.setChecked(True)
+        else:
+            self.checkBox.setChecked(False)
 
     def speed_mode(self):
         """极速模式开启"""
@@ -510,9 +531,7 @@ if __name__ == "__main__":
     main_window = Main_window()
     # 给窗体程序设置图标
     main_window.setWindowIcon(QIcon('图标.ico'))
-    # 显示窗体
-    main_window.show()
-    # 打开窗口检查更新
-    main_window.check_update(0)
+    # 显示窗体，并根据设置检查更新
+    main_window.main_show()
     # 显示添加对话框窗口
     sys.exit(app.exec_())
