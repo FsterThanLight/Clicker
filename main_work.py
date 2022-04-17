@@ -110,14 +110,17 @@ def mainWork(file_path, main_window):
                     if not start_state:
                         main_window.plainTextEdit.appendPlainText('结束任务')
                         main_window.display_running_time('结束计时')
-                        if main_window.checkBox_2.isChecked():
-                            main_window.show()
+                        # if main_window.checkBox_2.isChecked():
+                        #     main_window.show()
                         break
                     if suspended:
                         event.clear()
                         event.wait(86400)
                     number += 1
                     time.sleep(setting.time_sleep)
+                if main_window.checkBox_2.isChecked():
+                    print('窗体出现')
+                    main_window.show()
             elif main_window.radioButton_2.isChecked():
                 main_window.display_running_time('开始计时')
                 number = 1
@@ -126,10 +129,9 @@ def mainWork(file_path, main_window):
                 while number <= repeat_number and start_state:
                     execute_instructions(file_path, list_instructions, main_window, number, setting)
                     if not start_state:
+                        main_window.show()
                         main_window.plainTextEdit.appendPlainText('结束任务')
                         main_window.display_running_time('结束计时')
-                        if main_window.checkBox_2.isChecked():
-                            main_window.show()
                         break
                     if suspended:
                         event.clear()
@@ -137,6 +139,9 @@ def mainWork(file_path, main_window):
                     number += 1
                     time.sleep(setting.time_sleep)
                 main_window.plainTextEdit.appendPlainText('结束任务')
+                if main_window.checkBox_2.isChecked():
+                    print('窗体出现')
+                    main_window.show()
                 main_window.display_running_time('结束计时')
             elif not main_window.radioButton.isChecked() and not main_window.radioButton_2.isChecked():
                 QMessageBox.information(main_window, "提示", "请设置执行循环次数！")
@@ -162,10 +167,3 @@ def abc(x):
         print('你按下了恢复键')
         event.set()
         suspended = False
-
-# def display_lcdnumber():
-#     """更新lcd计时器"""
-#     global lcdnumber
-#     timer = threading.Timer(1, display_lcdnumber)
-#     timer.start()
-#     lcdnumber += 1

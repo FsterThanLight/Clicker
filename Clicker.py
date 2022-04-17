@@ -419,11 +419,6 @@ class Dialog(QWidget, Ui_Form):
         # 设置子窗口出现阻塞主窗口
         self.setWindowModality(Qt.ApplicationModal)
 
-    # def center_show(self,mainwindow):
-    #     xy_size = mainwindow.geometry()
-    #     print(xy_size.x())
-    #     print(xy_size.y())
-
     def select_file(self, judge):
         """选择文件夹并返回文件夹名称"""
         if judge == 0:
