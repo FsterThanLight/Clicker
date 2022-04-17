@@ -107,6 +107,8 @@ class Main_window(QMainWindow, Ui_MainWindow):
         self.actiong.triggered.connect(self.hide_toolbar)
         # 打开关于窗体
         self.actionabout.triggered.connect(self.show_about)
+        # 打开使用说明
+        self.actionhelp.triggered.connect(self.open_readme)
 
     # def keyPressEvent(self, event):
     #     """检测键盘按键事件"""
@@ -388,6 +390,10 @@ class Main_window(QMainWindow, Ui_MainWindow):
             self.toolBar.show()
         elif not self.actiong.isChecked():
             self.toolBar.hide()
+
+    def open_readme(self):
+        """打开使用说明"""
+        os.popen('README.pdf')
 
 
 class Dialog(QWidget, Ui_Form):

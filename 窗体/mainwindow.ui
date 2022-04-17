@@ -14,7 +14,7 @@
    <string>自动点击</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../images.qrc">
+   <iconset>
     <normaloff>:/按钮图标/图标.png</normaloff>:/按钮图标/图标.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
@@ -412,7 +412,7 @@
     </property>
     <addaction name="actionabout"/>
     <addaction name="actionj"/>
-    <addaction name="actions"/>
+    <addaction name="actionhelp"/>
    </widget>
    <widget class="QMenu" name="menu_4">
     <property name="title">
@@ -445,7 +445,7 @@
    <addaction name="actionf"/>
    <addaction name="separator"/>
    <addaction name="actions_2"/>
-   <addaction name="actions"/>
+   <addaction name="actionhelp"/>
    <addaction name="actionj"/>
    <addaction name="actionabout"/>
   </widget>
@@ -467,7 +467,7 @@
     <string>检查更新</string>
    </property>
   </action>
-  <action name="actions">
+  <action name="actionhelp">
    <property name="icon">
     <iconset resource="../images.qrc">
      <normaloff>:/按钮图标/窗体/res/帮助.png</normaloff>:/按钮图标/窗体/res/帮助.png</iconset>
