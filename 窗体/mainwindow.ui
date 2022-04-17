@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>自动点击</string>
+   <string>Clicker</string>
   </property>
   <property name="windowIcon">
    <iconset>
@@ -27,6 +27,13 @@
     </property>
     <item row="0" column="0" colspan="2">
      <widget class="QGroupBox" name="groupBox">
+      <property name="font">
+       <font>
+        <family>微软雅黑</family>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
       <property name="title">
        <string>处理状态</string>
       </property>
@@ -107,6 +114,13 @@
     </item>
     <item row="1" column="0" colspan="2">
      <widget class="QGroupBox" name="groupBox_2">
+      <property name="font">
+       <font>
+        <family>微软雅黑</family>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
       <property name="title">
        <string>指令集合</string>
       </property>
@@ -191,6 +205,13 @@
        </item>
        <item row="0" column="0" colspan="8">
         <widget class="QTableWidget" name="tableWidget">
+         <property name="font">
+          <font>
+           <family>微软雅黑</family>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
+         </property>
          <property name="styleSheet">
           <string notr="true"/>
          </property>
@@ -293,6 +314,13 @@
     </item>
     <item row="2" column="0">
      <widget class="QGroupBox" name="groupBox_3">
+      <property name="font">
+       <font>
+        <family>微软雅黑</family>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
       <property name="title">
        <string>控制</string>
       </property>
@@ -333,12 +361,26 @@
     </item>
     <item row="2" column="1">
      <widget class="QGroupBox" name="groupBox_4">
+      <property name="font">
+       <font>
+        <family>微软雅黑</family>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
       <property name="title">
        <string>操作</string>
       </property>
       <layout class="QGridLayout" name="gridLayout_3">
        <item row="1" column="0" colspan="3">
         <widget class="QPushButton" name="pushButton_5">
+         <property name="font">
+          <font>
+           <family>微软雅黑</family>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
          <property name="text">
           <string>开始运行</string>
          </property>
@@ -360,6 +402,13 @@
        </item>
        <item row="3" column="0" colspan="3">
         <widget class="QPushButton" name="pushButton_6">
+         <property name="font">
+          <font>
+           <family>微软雅黑</family>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
          <property name="text">
           <string>结束任务</string>
          </property>
@@ -380,6 +429,13 @@
        </item>
        <item row="2" column="0" colspan="3">
         <widget class="QPushButton" name="pushButton_7">
+         <property name="font">
+          <font>
+           <family>微软雅黑</family>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
          <property name="text">
           <string>暂停/恢复</string>
          </property>

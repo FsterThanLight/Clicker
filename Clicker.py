@@ -120,6 +120,9 @@ class Main_window(QMainWindow, Ui_MainWindow):
     def show_dialog(self):
         self.dialog_1.show()
         print('子窗口开启')
+        resize = self.geometry()
+        self.dialog_1.move(resize.x(), resize.y()+200)
+
 
     def format_table(self):
         """设置主窗口表格格式"""
@@ -135,11 +138,15 @@ class Main_window(QMainWindow, Ui_MainWindow):
         self.setting.show()
         self.setting.load_setting_data()
         print('设置窗口打开')
+        resize = self.geometry()
+        self.setting.move(resize.x()+90, resize.y())
 
     def show_about(self):
         """显示关于窗口"""
         self.about.show()
         print('关于窗体开启')
+        resize = self.geometry()
+        self.about.move(resize.x()+90 , resize.y() )
 
     def get_data(self):
         """从数据库获取数据并存入表格"""
@@ -372,13 +379,15 @@ class Main_window(QMainWindow, Ui_MainWindow):
     def main_show(self):
         """显示窗体，并根据设置检查更新"""
         self.show()
-        # import sqlite3
+        import sqlite3
         # 连接数据库获取是否检查更新选项
         con = sqlite3.connect('命令集.db')
         cursor = con.cursor()
         cursor.execute('select 值 from 设置 where 设置类型="启动检查更新"')
         x = cursor.fetchall()[0][0]
         cursor.close()
+        print('启动检查更新')
+        print(x)
         if x == 1:
             self.check_update(0)
         else:
@@ -409,6 +418,11 @@ class Dialog(QWidget, Ui_Form):
         self.filePath = ''
         # 设置子窗口出现阻塞主窗口
         self.setWindowModality(Qt.ApplicationModal)
+
+    # def center_show(self,mainwindow):
+    #     xy_size = mainwindow.geometry()
+    #     print(xy_size.x())
+    #     print(xy_size.y())
 
     def select_file(self, judge):
         """选择文件夹并返回文件夹名称"""
