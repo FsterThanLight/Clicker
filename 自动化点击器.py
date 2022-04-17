@@ -4,7 +4,6 @@ import sqlite3
 import cryptocode
 import requests
 from PyQt5.QtCore import Qt, QTimer
-from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, \
     QFileDialog, QTableWidgetItem, QMessageBox, QComboBox, QHeaderView
 from 窗体.add_instruction import Ui_Form
@@ -100,6 +99,8 @@ class Main_window(QMainWindow, Ui_MainWindow):
         self.pushButton_6.clicked.connect(exit_main_work)
         # 检查更新按钮（菜单栏）
         self.actionj.triggered.connect(lambda:self.check_update(1))
+        # 隐藏工具栏
+        self.actiong.triggered.connect(self.hide_toolbar)
 
     # def keyPressEvent(self, event):
     #     """检测键盘按键事件"""
@@ -370,6 +371,13 @@ class Main_window(QMainWindow, Ui_MainWindow):
         else:
             pass
 
+    def hide_toolbar(self):
+        """隐藏工具栏"""
+        if self.actiong.isChecked():
+            self.toolBar.show()
+        elif not self.actiong.isChecked():
+            self.toolBar.hide()
+
 
 class Dialog(QWidget, Ui_Form):
     """添加指令对话框"""
@@ -534,8 +542,6 @@ class Setting(QWidget, Ui_Setting):
 if __name__ == "__main__":
     app = QApplication([])
     main_window = Main_window()
-    # 给窗体程序设置图标
-    main_window.setWindowIcon(QIcon('图标.ico'))
     # 显示窗体，并根据设置检查更新
     main_window.main_show()
     # 显示添加对话框窗口
