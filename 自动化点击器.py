@@ -3,16 +3,18 @@ import sqlite3
 
 import cryptocode
 import requests
-from PyQt5.QtCore import Qt, QTimer
+from PyQt5.QtCore import Qt, QTimer, QUrl
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, \
     QFileDialog, QTableWidgetItem, QMessageBox, QComboBox, QHeaderView
 from 窗体.add_instruction import Ui_Form
 from 窗体.mainwindow import Ui_MainWindow
 from 窗体.setting import Ui_Setting
+from 窗体.about import Ui_Dialog
 import sys
 import os
 from main_work import mainWork, exit_main_work
 import time
+from PyQt5.QtGui import QDesktopServices
 
 headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
                          'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.88 Safari/537.36'}
@@ -32,7 +34,7 @@ def load_json():
     return url, list_keep[1:]
 
 
-def get_download_address(main_window,warning):
+def get_download_address(main_window, warning):
     """获取下载地址、版本信息、更新说明"""
     global headers
     url, files = load_json()
@@ -43,7 +45,7 @@ def get_download_address(main_window,warning):
         list_1 = info.split('=')
         return list_1[0], list_1[1], list_1[2], list_1[3]
     except requests.exceptions.ConnectionError:
-        if warning==1:
+        if warning == 1:
             QMessageBox.critical(main_window, "更新检查", "无法获取更新信息，请检查网络。")
             time.sleep(1)
         else:
@@ -63,6 +65,8 @@ class Main_window(QMainWindow, Ui_MainWindow):
         self.dialog_1 = Dialog()
         # 实例化设置窗口
         self.setting = Setting()
+        # 设置关于窗体
+        self.about=About()
         # 设置表格列宽自动变化，并使第5列列宽固定
         self.format_table()
         # 添加指令按钮
@@ -98,9 +102,11 @@ class Main_window(QMainWindow, Ui_MainWindow):
         # 结束任务按钮
         self.pushButton_6.clicked.connect(exit_main_work)
         # 检查更新按钮（菜单栏）
-        self.actionj.triggered.connect(lambda:self.check_update(1))
+        self.actionj.triggered.connect(lambda: self.check_update(1))
         # 隐藏工具栏
         self.actiong.triggered.connect(self.hide_toolbar)
+        # 打开关于窗体
+        self.actionabout.triggered.connect(self.show_about)
 
     # def keyPressEvent(self, event):
     #     """检测键盘按键事件"""
@@ -127,6 +133,11 @@ class Main_window(QMainWindow, Ui_MainWindow):
         self.setting.show()
         self.setting.load_setting_data()
         print('设置窗口打开')
+
+    def show_about(self):
+        """显示关于窗口"""
+        self.about.show()
+        print('关于窗体开启')
 
     def get_data(self):
         """从数据库获取数据并存入表格"""
@@ -334,10 +345,10 @@ class Main_window(QMainWindow, Ui_MainWindow):
         elif judge == "暂停计时":
             self.timer.stop()
 
-    def check_update(self,warning):
+    def check_update(self, warning):
         """检查更新功能"""
         try:
-            address, version, info, name = get_download_address(self,warning)
+            address, version, info, name = get_download_address(self, warning)
             print(version)
             if version != self.version:
                 x = QMessageBox.information(self, "更新检查", "已发现最新版" + version + "\n是否更新？",
@@ -349,7 +360,7 @@ class Main_window(QMainWindow, Ui_MainWindow):
                     sys.exit()
 
             else:
-                if warning==1:
+                if warning == 1:
                     QMessageBox.information(self, "更新检查", "当前" + self.version + "已是最新版本。")
                 else:
                     pass
@@ -361,12 +372,12 @@ class Main_window(QMainWindow, Ui_MainWindow):
         self.show()
         # import sqlite3
         # 连接数据库获取是否检查更新选项
-        con=sqlite3.connect('命令集.db')
-        cursor=con.cursor()
+        con = sqlite3.connect('命令集.db')
+        cursor = con.cursor()
         cursor.execute('select 值 from 设置 where 设置类型="启动检查更新"')
-        x=cursor.fetchall()[0][0]
+        x = cursor.fetchall()[0][0]
         cursor.close()
-        if x==1:
+        if x == 1:
             self.check_update(0)
         else:
             pass
@@ -460,19 +471,19 @@ class Setting(QWidget, Ui_Setting):
     def save_setting_date(self):
         """保存设置数据"""
         # 重窗体控件提取数据并放入列表
-        list_setting_name = ['图像匹配精度', '时间间隔', '持续时间', '暂停时间', '模式','启动检查更新']
+        list_setting_name = ['图像匹配精度', '时间间隔', '持续时间', '暂停时间', '模式', '启动检查更新']
         image_accuracy = self.horizontalSlider.value() / 10
         interval = self.horizontalSlider_2.value() / 1000
         duration = self.horizontalSlider_3.value() / 1000
         time_sleep = self.horizontalSlider_4.value() / 1000
         model = 1
         if self.checkBox.isChecked():
-            update_check=1
+            update_check = 1
         else:
-            update_check=0
+            update_check = 0
         if self.radioButton_2.isChecked():
             model = 2
-        list_setting_value = [image_accuracy, interval, duration, time_sleep, model,update_check]
+        list_setting_value = [image_accuracy, interval, duration, time_sleep, model, update_check]
         # 打开数据库并更新设置数据
         con = sqlite3.connect('命令集.db')
         cursor = con.cursor()
@@ -516,7 +527,7 @@ class Setting(QWidget, Ui_Setting):
             self.pushButton_3.setEnabled(False)
             self.horizontalSlider_2.setEnabled(False)
             self.horizontalSlider_4.setEnabled(False)
-        if list_setting_data[5][1]==1:
+        if list_setting_data[5][1] == 1:
             self.checkBox.setChecked(True)
         else:
             self.checkBox.setChecked(False)
@@ -537,6 +548,26 @@ class Setting(QWidget, Ui_Setting):
         self.horizontalSlider_4.setEnabled(True)
         self.pushButton_3.setEnabled(True)
         self.save_setting_date()
+
+
+class About(QWidget, Ui_Dialog):
+    """关于窗体"""
+
+    def __init__(self):
+        super(About, self).__init__()
+        self.setupUi(self)
+        # 去除窗体最大化、最小化按钮
+        self.setWindowFlags(Qt.WindowCloseButtonHint)
+        self.setWindowModality(Qt.ApplicationModal)
+
+        self.github.clicked.connect(self.show_github)
+        self.gitee.clicked.connect(self.show_gitee)
+
+    def show_github(self):
+        QDesktopServices.openUrl(QUrl('https://github.com/FsterThanLight/Clicker'))
+
+    def show_gitee(self):
+        QDesktopServices.openUrl(QUrl('https://gitee.com/fasterthanlight/automatic_clicker'))
 
 
 if __name__ == "__main__":
