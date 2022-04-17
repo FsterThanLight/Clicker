@@ -59,7 +59,7 @@ class Main_window(QMainWindow, Ui_MainWindow):
         # 初始化窗体
         self.setupUi(self)
         # 软件版本
-        self.version = 'v0.1'
+        self.version = 'v0.2'
         # 实例化子窗口1
         self.dialog_1 = Dialog()
         # 实例化设置窗口
@@ -358,9 +358,14 @@ class Main_window(QMainWindow, Ui_MainWindow):
     def main_show(self):
         """显示窗体，并根据设置检查更新"""
         self.show()
-        x=self.setting.checkBox.isChecked
-        print(x)
-        if self.setting.checkBox.isChecked():
+        # import sqlite3
+        # 连接数据库获取是否检查更新选项
+        con=sqlite3.connect('命令集.db')
+        cursor=con.cursor()
+        cursor.execute('select 值 from 设置 where 设置类型="启动检查更新"')
+        x=cursor.fetchall()[0][0]
+        cursor.close()
+        if x==1:
             self.check_update(0)
         else:
             pass
