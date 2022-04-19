@@ -161,7 +161,7 @@ class Main_window(QMainWindow, Ui_MainWindow):
     def get_data(self):
         """从数据库获取数据并存入表格"""
         self.change_state = False
-        list_options = ['左键单击', '左键双击', '右键单击', '等待']
+        list_options = ['左键单击', '左键双击', '右键单击', '等待','滚轮滑动','内容输入']
         self.tableWidget.clearContents()
         self.tableWidget.setRowCount(0)
         # 获取数据库数据

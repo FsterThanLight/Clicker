@@ -12,6 +12,7 @@ import sqlite3
 import time
 import keyboard
 import pyautogui
+import pyperclip
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QMessageBox
 import threading
@@ -83,9 +84,19 @@ def execute_instructions(file_path, list_instructions, main_window, number, sett
             re_try = list_instructions[i][4]
             mouseclick(1, 'right', img, re_try, main_window, number, setting)
         elif cmd_type == '等待':
-            wait_time = list_instructions[i][3]
+            wait_time = int(list_instructions[i][3])
             main_window.plainTextEdit.appendPlainText('等待中...时长' + str(wait_time) + '秒')
             time.sleep(wait_time)
+        elif cmd_type=='滚轮滑动':
+            scroll=int(list_instructions[i][3])
+            pyautogui.scroll(scroll)
+            main_window.plainTextEdit.appendPlainText('滚轮滑动' + str(scroll) +'距离')
+        elif cmd_type=='内容输入':
+            input_value=str(list_instructions[i][3])
+            pyperclip.copy(input_value)
+            pyautogui.hotkey('ctrl', 'v')
+            time.sleep(setting.time_sleep)
+            main_window.plainTextEdit.appendPlainText('执行文本输入')
 
 
 def mainWork(file_path, main_window):

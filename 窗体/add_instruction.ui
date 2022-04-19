@@ -14,7 +14,7 @@
    <string>添加指令</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../images.qrc">
+   <iconset>
     <normaloff>:/按钮图标/图标.png</normaloff>:/按钮图标/图标.png</iconset>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
@@ -54,6 +54,16 @@
        <item>
         <property name="text">
          <string>等待</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>滚轮滑动</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>内容输入</string>
         </property>
        </item>
       </widget>
