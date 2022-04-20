@@ -414,6 +414,16 @@ class Main_window(QMainWindow, Ui_MainWindow):
         os.popen('README.pdf')
 
 
+def click_parameter(dialog_1):
+    """初始化和选中鼠标点击功能的界面样式"""
+    dialog_1.label_3.setStyleSheet('color:transparent')
+    dialog_1.label_8.setStyleSheet('color:transparent')
+    dialog_1.label_7.setStyleSheet('color:transparent')
+    dialog_1.spinBox.setEnabled(False)
+    dialog_1.comboBox_3.setEnabled(False)
+    dialog_1.textEdit.setEnabled(False)
+
+
 class Dialog(QWidget, Ui_Form):
     """添加指令对话框"""
 
@@ -427,6 +437,7 @@ class Dialog(QWidget, Ui_Form):
         self.filePath = ''
         # 设置子窗口出现阻塞主窗口
         self.setWindowModality(Qt.ApplicationModal)
+        self.list_combox_3_value=[]
 
     def select_file(self, judge):
         """选择文件夹并返回文件夹名称"""
@@ -443,23 +454,44 @@ class Dialog(QWidget, Ui_Form):
         print(images_name)
         self.label_6.setText(self.filePath.split('/')[-1])
         self.comboBox.addItems(images_name)
-        self.label_3.setText('无参数')
+        click_parameter(self)
         self.comboBox_2.currentIndexChanged.connect(self.change_label3)
 
     def change_label3(self):
         """标签3根据下拉框2的选择变化"""
         self.spinBox_2.setValue(1)
         combox_text = self.comboBox_2.currentText()
+
         if combox_text == '等待':
+            self.label_3.setStyleSheet('color:red')
+            self.spinBox.setEnabled(True)
             self.label_3.setText('等待时长')
+            self.label_8.setStyleSheet('color:transparent')
+            self.label_7.setStyleSheet('color:transparent')
+            self.comboBox_3.setEnabled(False)
+            self.textEdit.setEnabled(False)
+
         if combox_text == '左键单击':
-            self.label_3.setText('无参数')
+            click_parameter(self)
+
         if combox_text == '左键双击':
-            self.label_3.setText('无参数')
+            click_parameter(self)
+
         if combox_text == '右键单击':
-            self.label_3.setText('无参数')
+            click_parameter(self)
+
         if combox_text == '滚轮滑动':
-            self.label_3.setText('滚动距离')
+            self.label_3.setStyleSheet('color:red')
+            self.label_3.setText('滑动距离')
+            self.label_8.setStyleSheet('color:red')
+            self.label_8.setText('滑动方向')
+            self.list_combox_3_value=['向上滑动','向下滑动']
+            self.comboBox_3.addItems(self.list_combox_3_value)
+            self.label_7.setStyleSheet('color:transparent')
+            self.textEdit.setEnabled(False)
+            self.spinBox.setEnabled(True)
+            self.comboBox_3.setEnabled(True)
+
         if combox_text == '内容输入':
             self.label_3.setText('输入文本')
 
