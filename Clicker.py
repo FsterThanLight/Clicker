@@ -414,39 +414,6 @@ class Main_window(QMainWindow, Ui_MainWindow):
         os.popen('README.pdf')
 
 
-# def click_parameter(dialog_1):
-#     """初始化和选中鼠标点击功能的界面样式"""
-#     commonly_used_controls(dialog_1)
-#     dialog_1.comboBox_3.clear()
-#     dialog_1.label_3.setStyleSheet('color:transparent')
-#     dialog_1.label_8.setStyleSheet('color:transparent')
-#     dialog_1.label_7.setStyleSheet('color:transparent')
-#     dialog_1.spinBox.setEnabled(False)
-#     dialog_1.comboBox_3.setEnabled(False)
-#     dialog_1.textEdit.setEnabled(False)
-
-
-# def commonly_used_controls(dialog_1):
-#     """常用控件恢复运行"""
-#     dialog_1.label_2.setStyleSheet('color:red')
-#     dialog_1.comboBox.setEnabled(True)
-#     dialog_1.spinBox_2.setEnabled(True)
-#     dialog_1.label_4.setStyleSheet('color:red')
-
-
-# def all_disabled(dialog_1):
-#     """指令框所有控件全部禁用"""
-#     list_controls = [dialog_1.textEdit, dialog_1.spinBox, dialog_1.spinBox_2, dialog_1.comboBox,
-#                      dialog_1.comboBox_3]
-#     list_label = [dialog_1.label_2, dialog_1.label_3, dialog_1.label_4, dialog_1.label_7,
-#                   dialog_1.label_8]
-#     for i in list_controls:
-#         i.setEnabled(False)
-#     for i in list_label:
-#         i.setStyleSheet('color:transparent')
-#     dialog_1.comboBox_3.clear()
-
-
 class Dialog(QWidget, Ui_Form):
     """添加指令对话框"""
 
@@ -465,7 +432,6 @@ class Dialog(QWidget, Ui_Form):
                          self.comboBox_3]
         for i in list_controls:
             i.setEnabled(False)
-
 
     def select_file(self, judge):
         """选择文件夹并返回文件夹名称"""
