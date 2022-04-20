@@ -76,7 +76,7 @@ class Main_window(QMainWindow, Ui_MainWindow):
         # 实例化设置窗口
         self.setting = Setting()
         # 设置关于窗体
-        self.about=About()
+        self.about = About()
         # 设置表格列宽自动变化，并使第5列列宽固定
         self.format_table()
         # 添加指令按钮
@@ -131,8 +131,7 @@ class Main_window(QMainWindow, Ui_MainWindow):
         self.dialog_1.show()
         print('子窗口开启')
         resize = self.geometry()
-        self.dialog_1.move(resize.x(), resize.y()+200)
-
+        self.dialog_1.move(resize.x(), resize.y() + 200)
 
     def format_table(self):
         """设置主窗口表格格式"""
@@ -149,19 +148,19 @@ class Main_window(QMainWindow, Ui_MainWindow):
         self.setting.load_setting_data()
         print('设置窗口打开')
         resize = self.geometry()
-        self.setting.move(resize.x()+90, resize.y())
+        self.setting.move(resize.x() + 90, resize.y())
 
     def show_about(self):
         """显示关于窗口"""
         self.about.show()
         print('关于窗体开启')
         resize = self.geometry()
-        self.about.move(resize.x()+90 , resize.y() )
+        self.about.move(resize.x() + 90, resize.y())
 
     def get_data(self):
         """从数据库获取数据并存入表格"""
         self.change_state = False
-        list_options = ['左键单击', '左键双击', '右键单击', '等待','滚轮滑动','内容输入']
+        list_options = ['左键单击', '左键双击', '右键单击', '等待', '滚轮滑动', '内容输入']
         self.tableWidget.clearContents()
         self.tableWidget.setRowCount(0)
         # 获取数据库数据
@@ -393,7 +392,7 @@ class Main_window(QMainWindow, Ui_MainWindow):
         # 连接数据库获取是否检查更新选项
         con = sqlite3.connect('命令集.db')
         cursor = con.cursor()
-        cursor.execute('select 值 from 设置 where 设置类型="启动检查更新"')
+        cursor.execute('select 值 from 设置 where 设置类型=?', ('启动检查更新',))
         x = cursor.fetchall()[0][0]
         cursor.close()
         print('启动检查更新')
@@ -459,6 +458,10 @@ class Dialog(QWidget, Ui_Form):
             self.label_3.setText('无参数')
         if combox_text == '右键单击':
             self.label_3.setText('无参数')
+        if combox_text == '滚轮滑动':
+            self.label_3.setText('滚动距离')
+        if combox_text == '内容输入':
+            self.label_3.setText('输入文本')
 
     def save_data(self):
         # 获取4个参数命令
