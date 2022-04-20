@@ -414,14 +414,37 @@ class Main_window(QMainWindow, Ui_MainWindow):
         os.popen('README.pdf')
 
 
-def click_parameter(dialog_1):
-    """初始化和选中鼠标点击功能的界面样式"""
-    dialog_1.label_3.setStyleSheet('color:transparent')
-    dialog_1.label_8.setStyleSheet('color:transparent')
-    dialog_1.label_7.setStyleSheet('color:transparent')
-    dialog_1.spinBox.setEnabled(False)
-    dialog_1.comboBox_3.setEnabled(False)
-    dialog_1.textEdit.setEnabled(False)
+# def click_parameter(dialog_1):
+#     """初始化和选中鼠标点击功能的界面样式"""
+#     commonly_used_controls(dialog_1)
+#     dialog_1.comboBox_3.clear()
+#     dialog_1.label_3.setStyleSheet('color:transparent')
+#     dialog_1.label_8.setStyleSheet('color:transparent')
+#     dialog_1.label_7.setStyleSheet('color:transparent')
+#     dialog_1.spinBox.setEnabled(False)
+#     dialog_1.comboBox_3.setEnabled(False)
+#     dialog_1.textEdit.setEnabled(False)
+
+
+# def commonly_used_controls(dialog_1):
+#     """常用控件恢复运行"""
+#     dialog_1.label_2.setStyleSheet('color:red')
+#     dialog_1.comboBox.setEnabled(True)
+#     dialog_1.spinBox_2.setEnabled(True)
+#     dialog_1.label_4.setStyleSheet('color:red')
+
+
+# def all_disabled(dialog_1):
+#     """指令框所有控件全部禁用"""
+#     list_controls = [dialog_1.textEdit, dialog_1.spinBox, dialog_1.spinBox_2, dialog_1.comboBox,
+#                      dialog_1.comboBox_3]
+#     list_label = [dialog_1.label_2, dialog_1.label_3, dialog_1.label_4, dialog_1.label_7,
+#                   dialog_1.label_8]
+#     for i in list_controls:
+#         i.setEnabled(False)
+#     for i in list_label:
+#         i.setStyleSheet('color:transparent')
+#     dialog_1.comboBox_3.clear()
 
 
 class Dialog(QWidget, Ui_Form):
@@ -437,7 +460,12 @@ class Dialog(QWidget, Ui_Form):
         self.filePath = ''
         # 设置子窗口出现阻塞主窗口
         self.setWindowModality(Qt.ApplicationModal)
-        self.list_combox_3_value=[]
+        self.list_combox_3_value = []
+        list_controls = [self.textEdit, self.spinBox, self.spinBox_2, self.comboBox,
+                         self.comboBox_3]
+        for i in list_controls:
+            i.setEnabled(False)
+
 
     def select_file(self, judge):
         """选择文件夹并返回文件夹名称"""
@@ -454,46 +482,82 @@ class Dialog(QWidget, Ui_Form):
         print(images_name)
         self.label_6.setText(self.filePath.split('/')[-1])
         self.comboBox.addItems(images_name)
-        click_parameter(self)
         self.comboBox_2.currentIndexChanged.connect(self.change_label3)
+        self.comboBox.setEnabled(True)
+        self.spinBox_2.setEnabled(True)
 
     def change_label3(self):
         """标签3根据下拉框2的选择变化"""
         self.spinBox_2.setValue(1)
         combox_text = self.comboBox_2.currentText()
 
+        def commonly_used_controls(dialog_1):
+            """常用控件恢复运行"""
+            dialog_1.label_2.setStyleSheet('color:red')
+            dialog_1.comboBox.setEnabled(True)
+            dialog_1.spinBox_2.setEnabled(True)
+            dialog_1.label_4.setStyleSheet('color:red')
+
+        def all_disabled(dialog_1):
+            """指令框所有控件全部禁用"""
+            list_controls = [dialog_1.textEdit, dialog_1.spinBox, dialog_1.spinBox_2, dialog_1.comboBox,
+                             dialog_1.comboBox_3]
+            list_label = [dialog_1.label_2, dialog_1.label_3, dialog_1.label_4, dialog_1.label_7,
+                          dialog_1.label_8]
+            for i in list_controls:
+                i.setEnabled(False)
+            for i in list_label:
+                i.setStyleSheet('color:transparent')
+            dialog_1.comboBox_3.clear()
+
         if combox_text == '等待':
+            all_disabled(self)
+            commonly_used_controls(self)
             self.label_3.setStyleSheet('color:red')
             self.spinBox.setEnabled(True)
             self.label_3.setText('等待时长')
-            self.label_8.setStyleSheet('color:transparent')
-            self.label_7.setStyleSheet('color:transparent')
-            self.comboBox_3.setEnabled(False)
-            self.textEdit.setEnabled(False)
 
         if combox_text == '左键单击':
-            click_parameter(self)
+            all_disabled(self)
+            commonly_used_controls(self)
 
         if combox_text == '左键双击':
-            click_parameter(self)
+            all_disabled(self)
+            commonly_used_controls(self)
 
         if combox_text == '右键单击':
-            click_parameter(self)
+            all_disabled(self)
+            commonly_used_controls(self)
 
         if combox_text == '滚轮滑动':
+            all_disabled(self)
+            commonly_used_controls(self)
             self.label_3.setStyleSheet('color:red')
             self.label_3.setText('滑动距离')
             self.label_8.setStyleSheet('color:red')
             self.label_8.setText('滑动方向')
-            self.list_combox_3_value=['向上滑动','向下滑动']
+            self.list_combox_3_value = ['向上滑动', '向下滑动']
             self.comboBox_3.addItems(self.list_combox_3_value)
-            self.label_7.setStyleSheet('color:transparent')
-            self.textEdit.setEnabled(False)
-            self.spinBox.setEnabled(True)
             self.comboBox_3.setEnabled(True)
+            self.spinBox.setEnabled(True)
 
         if combox_text == '内容输入':
-            self.label_3.setText('输入文本')
+            all_disabled(self)
+            commonly_used_controls(self)
+            self.label_7.setStyleSheet('color:red')
+            self.textEdit.setEnabled(True)
+
+        if combox_text == '鼠标滑动':
+            all_disabled(self)
+            commonly_used_controls(self)
+            self.label_8.setStyleSheet('color:red')
+            self.label_8.setText('移动方向')
+            self.label_3.setStyleSheet('color:red')
+            self.label_3.setText('移动距离')
+            self.list_combox_3_value = ['向上移动', '向下移动', '向左移动', '向右移动']
+            self.comboBox_3.addItems(self.list_combox_3_value)
+            self.comboBox_3.setEnabled(True)
+            self.spinBox.setEnabled(True)
 
     def save_data(self):
         # 获取4个参数命令

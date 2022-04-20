@@ -19,16 +19,16 @@ class SettingsData:
         # print(list_setting_data)
 
         for i in range(len(list_setting_data)):
-            if list_setting_data[i][0]=='图像匹配精度':
+            if list_setting_data[i][0] == '图像匹配精度':
                 self.confidence = list_setting_data[i][1]
-            elif list_setting_data[i][0]=='时间间隔':
+            elif list_setting_data[i][0] == '时间间隔':
                 self.interval = list_setting_data[i][1]
-            elif list_setting_data[i][0]=='持续时间':
+            elif list_setting_data[i][0] == '持续时间':
                 self.duration = list_setting_data[i][1]
-            elif list_setting_data[i][0]=='暂停时间':
+            elif list_setting_data[i][0] == '暂停时间':
                 self.time_sleep = list_setting_data[i][1]
 
 
 if __name__ == '__main__':
-    setting=SettingsData()
+    setting = SettingsData()
     setting.init()
