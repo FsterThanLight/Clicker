@@ -94,7 +94,7 @@ class Main_window(QMainWindow, Ui_MainWindow):
         self.toolButton_4.clicked.connect(lambda: self.go_up_down("down"))
         # 单元格变动自动存储
         self.change_state = True
-        self.tableWidget.cellChanged.connect(lambda:self.table_cell_changed(False))
+        self.tableWidget.cellChanged.connect(lambda: self.table_cell_changed(False))
         # 保存按钮
         self.actionb.triggered.connect(self.save_data_to_current)
         # 清空指令按钮
@@ -160,27 +160,28 @@ class Main_window(QMainWindow, Ui_MainWindow):
     def get_data(self):
         """从数据库获取数据并存入表格"""
         self.change_state = False
-        list_options = ['左键单击', '左键双击', '右键单击', '等待', '滚轮滑动', '内容输入','鼠标移动']
-        self.tableWidget.clearContents()
-        self.tableWidget.setRowCount(0)
-        # 获取数据库数据
-        con = sqlite3.connect('命令集.db')
-        cursor = con.cursor()
-        cursor.execute('select 图像名称,键鼠命令,参数,重复次数,ID from 命令')
-        list_order = cursor.fetchall()
-        con.close()
-        # 在表格中写入数据
-        for i in range(len(list_order)):
-            self.tableWidget.insertRow(i)
-            for j in range(len(list_order[i])):
-                if j != 1:
-                    self.tableWidget.setItem(i, j, QTableWidgetItem(str(list_order[i][j])))
-                else:
-                    combox = QComboBox()
-                    combox.addItems(list_options)
-                    combox.setCurrentText(list_order[i][j])
-                    self.tableWidget.setCellWidget(i, 1, combox)
-                    combox.currentIndexChanged.connect(lambda:self.table_cell_changed(True))
+        if self.dialog_1.filePath != "":
+            list_options = ['左键单击', '左键双击', '右键单击', '等待', '滚轮滑动', '内容输入', '鼠标移动']
+            self.tableWidget.clearContents()
+            self.tableWidget.setRowCount(0)
+            # 获取数据库数据
+            con = sqlite3.connect('命令集.db')
+            cursor = con.cursor()
+            cursor.execute('select 图像名称,键鼠命令,参数,重复次数,ID from 命令')
+            list_order = cursor.fetchall()
+            con.close()
+            # 在表格中写入数据
+            for i in range(len(list_order)):
+                self.tableWidget.insertRow(i)
+                for j in range(len(list_order[i])):
+                    if j != 1:
+                        self.tableWidget.setItem(i, j, QTableWidgetItem(str(list_order[i][j])))
+                    else:
+                        combox = QComboBox()
+                        combox.addItems(list_options)
+                        combox.setCurrentText(list_order[i][j])
+                        self.tableWidget.setCellWidget(i, 1, combox)
+                        combox.currentIndexChanged.connect(lambda: self.table_cell_changed(True))
         self.change_state = True
 
     def delete_data(self):
@@ -237,7 +238,7 @@ class Main_window(QMainWindow, Ui_MainWindow):
         except AttributeError:
             pass
 
-    def table_cell_changed(self,combox_change):
+    def table_cell_changed(self, combox_change):
         """单元格改变时自动存储"""
         if self.change_state:
             print('自动存储')
@@ -530,7 +531,7 @@ class Dialog(QWidget, Ui_Form):
             self.spinBox.setEnabled(True)
 
     def save_data(self):
-        """获取4个参数命令"""
+        """获取4个参数命令，并保存至数据库"""
         instruction = self.comboBox_2.currentText()
         # 根据参数的不同获取不同位置的4参数
         # 获取图像名称和重读次数
@@ -553,17 +554,18 @@ class Dialog(QWidget, Ui_Form):
         if instruction == '内容输入':
             parameter = self.textEdit.toPlainText()
         # 获取鼠标移动的事件参数
-        if instruction=='鼠标移动':
+        if instruction == '鼠标移动':
             direction = self.comboBox_3.currentText()
-            distance=self.spinBox.value()
-            parameter=direction+'-'+str(distance)
+            distance = self.spinBox.value()
+            parameter = direction + '-' + str(distance)
         # 连接数据库，将数据插入表中并关闭数据库
-        con = sqlite3.connect('命令集.db')
-        cursor = con.cursor()
-        cursor.execute('INSERT INTO 命令(图像名称,键鼠命令,参数,重复次数) VALUES (?,?,?,?)',
-                       (image, instruction, parameter, repeat_number))
-        con.commit()
-        con.close()
+        if self.filePath != '':
+            con = sqlite3.connect('命令集.db')
+            cursor = con.cursor()
+            cursor.execute('INSERT INTO 命令(图像名称,键鼠命令,参数,重复次数) VALUES (?,?,?,?)',
+                           (image, instruction, parameter, repeat_number))
+            con.commit()
+            con.close()
         self.close()
 
 

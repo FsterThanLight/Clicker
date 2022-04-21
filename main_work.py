@@ -69,8 +69,24 @@ def mouse_moves(direction, distance, main_window, setting):
     real_time_display_status(main_window)
 
 
+def wheel_slip(scroll, main_window, setting):
+    """滚轮滑动事件"""
+    pyautogui.scroll(scroll)
+    main_window.plainTextEdit.appendPlainText('滚轮滑动' + str(scroll) + '距离')
+    real_time_display_status(main_window)
+
+
+def text_input(input_value, main_window, setting):
+    """文本输入事件"""
+    pyperclip.copy(input_value)
+    pyautogui.hotkey('ctrl', 'v')
+    time.sleep(setting.time_sleep)
+    main_window.plainTextEdit.appendPlainText('执行文本输入')
+
+
 def execution_repeats(cmd_type, list_ins, reTry, main_window, number, setting):
     """执行重复次数"""
+
     def determine_execution_type(cmd_type, list_ins, main_window, number, setting):
         """执行判断命令类型并调用对应函数"""
         if cmd_type == '左键单击' or cmd_type == '右键单击' or cmd_type == '左键双击':
@@ -82,6 +98,13 @@ def execution_repeats(cmd_type, list_ins, reTry, main_window, number, setting):
             direction = list_ins[0]
             distance = list_ins[1]
             mouse_moves(direction, distance, main_window, setting)
+        elif cmd_type == '滚轮滑动':
+            scroll = list_ins[0]
+            wheel_slip(scroll, main_window, setting)
+        elif cmd_type == '内容输入':
+            input_value = list_ins[0]
+            text_input(input_value, main_window, setting)
+
     if reTry == 1:
         # 参数：图片和查找精度，返回目标图像在屏幕的位置
         determine_execution_type(cmd_type, list_ins, main_window, number, setting)
@@ -126,14 +149,12 @@ def execute_instructions(file_path, list_instructions, main_window, number, sett
             time.sleep(wait_time)
         elif cmd_type == '滚轮滑动':
             scroll = int(list_instructions[i][3])
-            pyautogui.scroll(scroll)
-            main_window.plainTextEdit.appendPlainText('滚轮滑动' + str(scroll) + '距离')
+            list_ins = [scroll]
+            execution_repeats(cmd_type, list_ins, re_try, main_window, number, setting)
         elif cmd_type == '内容输入':
             input_value = str(list_instructions[i][3])
-            pyperclip.copy(input_value)
-            pyautogui.hotkey('ctrl', 'v')
-            time.sleep(setting.time_sleep)
-            main_window.plainTextEdit.appendPlainText('执行文本输入')
+            list_ins = [input_value]
+            execution_repeats(cmd_type, list_ins, re_try, main_window, number, setting)
         elif cmd_type == '鼠标移动':
             direction = str(list_instructions[i][3]).split('-')[0]
             distance = str(list_instructions[i][3]).split('-')[1]
@@ -173,8 +194,6 @@ def mainWork(file_path, main_window):
                     if not start_state:
                         main_window.plainTextEdit.appendPlainText('结束任务')
                         main_window.display_running_time('结束计时')
-                        # if main_window.checkBox_2.isChecked():
-                        #     main_window.show()
                         break
                     if suspended:
                         event.clear()
