@@ -393,7 +393,7 @@ class Main_window(QMainWindow, Ui_MainWindow):
     def main_show(self):
         """显示窗体，并根据设置检查更新"""
         self.show()
-        import sqlite3
+        # import sqlite3
         # 连接数据库获取是否检查更新选项
         con = sqlite3.connect('命令集.db')
         cursor = con.cursor()

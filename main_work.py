@@ -156,10 +156,13 @@ def execute_instructions(file_path, list_instructions, main_window, number, sett
             list_ins = [input_value]
             execution_repeats(cmd_type, list_ins, re_try, main_window, number, setting)
         elif cmd_type == '鼠标移动':
-            direction = str(list_instructions[i][3]).split('-')[0]
-            distance = str(list_instructions[i][3]).split('-')[1]
-            list_ins = [direction, distance]
-            execution_repeats(cmd_type, list_ins, re_try, main_window, 0, setting)
+            try:
+                direction = str(list_instructions[i][3]).split('-')[0]
+                distance = str(list_instructions[i][3]).split('-')[1]
+                list_ins = [direction, distance]
+                execution_repeats(cmd_type, list_ins, re_try, main_window, 0, setting)
+            except IndexError:
+                main_window.plainTextEdit.appendPlainText('鼠标移动参数格式错误！')
 
 
 def mainWork(file_path, main_window):
