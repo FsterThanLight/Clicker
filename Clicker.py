@@ -94,7 +94,7 @@ class Main_window(QMainWindow, Ui_MainWindow):
         self.toolButton_4.clicked.connect(lambda: self.go_up_down("down"))
         # 单元格变动自动存储
         self.change_state = True
-        self.tableWidget.cellChanged.connect(self.table_cell_changed)
+        self.tableWidget.cellChanged.connect(lambda:self.table_cell_changed(False))
         # 保存按钮
         self.actionb.triggered.connect(self.save_data_to_current)
         # 清空指令按钮
@@ -160,7 +160,7 @@ class Main_window(QMainWindow, Ui_MainWindow):
     def get_data(self):
         """从数据库获取数据并存入表格"""
         self.change_state = False
-        list_options = ['左键单击', '左键双击', '右键单击', '等待', '滚轮滑动', '内容输入']
+        list_options = ['左键单击', '左键双击', '右键单击', '等待', '滚轮滑动', '内容输入','鼠标移动']
         self.tableWidget.clearContents()
         self.tableWidget.setRowCount(0)
         # 获取数据库数据
@@ -180,7 +180,7 @@ class Main_window(QMainWindow, Ui_MainWindow):
                     combox.addItems(list_options)
                     combox.setCurrentText(list_order[i][j])
                     self.tableWidget.setCellWidget(i, 1, combox)
-                    combox.currentIndexChanged.connect(self.table_cell_changed)
+                    combox.currentIndexChanged.connect(lambda:self.table_cell_changed(True))
         self.change_state = True
 
     def delete_data(self):
@@ -237,11 +237,15 @@ class Main_window(QMainWindow, Ui_MainWindow):
         except AttributeError:
             pass
 
-    def table_cell_changed(self):
+    def table_cell_changed(self,combox_change):
         """单元格改变时自动存储"""
         if self.change_state:
             print('自动存储')
             row = self.tableWidget.currentRow()
+            if combox_change:
+                self.tableWidget.item(row, 2).setText('0')
+            else:
+                pass
             # 获取选中行的id，及其他参数
             id = self.tableWidget.item(row, 4).text()
             images = self.tableWidget.item(row, 0).text()
@@ -513,24 +517,46 @@ class Dialog(QWidget, Ui_Form):
             self.label_7.setStyleSheet('color:red')
             self.textEdit.setEnabled(True)
 
-        if combox_text == '鼠标滑动':
+        if combox_text == '鼠标移动':
             all_disabled(self)
             commonly_used_controls(self)
             self.label_8.setStyleSheet('color:red')
             self.label_8.setText('移动方向')
             self.label_3.setStyleSheet('color:red')
             self.label_3.setText('移动距离')
-            self.list_combox_3_value = ['向上移动', '向下移动', '向左移动', '向右移动']
+            self.list_combox_3_value = ['向上', '向下', '向左', '向右']
             self.comboBox_3.addItems(self.list_combox_3_value)
             self.comboBox_3.setEnabled(True)
             self.spinBox.setEnabled(True)
 
     def save_data(self):
-        # 获取4个参数命令
-        image = self.comboBox.currentText()
+        """获取4个参数命令"""
         instruction = self.comboBox_2.currentText()
-        parameter = self.spinBox.value()
+        # 根据参数的不同获取不同位置的4参数
+        # 获取图像名称和重读次数
+        image = self.comboBox.currentText()
         repeat_number = self.spinBox_2.value()
+        parameter = ''
+        # 获取鼠标单击事件或等待的参数
+        list_click = ['左键单击', '左键双击', '右键单击', '等待']
+        if instruction in list_click:
+            parameter = self.spinBox.value()
+        # 获取滚轮滑动事件参数
+        if instruction == '滚轮滑动':
+            direction = self.comboBox_3.currentText()
+            if direction == '向上滑动':
+                parameter = self.spinBox.value()
+            elif direction == '向下滑动':
+                x = int(self.spinBox.value())
+                parameter = str(x - 2 * x)
+        # 获取内容输入事件的参数
+        if instruction == '内容输入':
+            parameter = self.textEdit.toPlainText()
+        # 获取鼠标移动的事件参数
+        if instruction=='鼠标移动':
+            direction = self.comboBox_3.currentText()
+            distance=self.spinBox.value()
+            parameter=direction+'-'+str(distance)
         # 连接数据库，将数据插入表中并关闭数据库
         con = sqlite3.connect('命令集.db')
         cursor = con.cursor()

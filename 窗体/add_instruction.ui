@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>352</width>
+    <width>350</width>
     <height>251</height>
    </rect>
   </property>
@@ -183,70 +183,6 @@
    </item>
    <item row="3" column="0" rowspan="3" colspan="6">
     <widget class="QTextEdit" name="textEdit">
-     <property name="palette">
-      <palette>
-       <active>
-        <colorrole role="Text">
-         <brush brushstyle="SolidPattern">
-          <color alpha="255">
-           <red>0</red>
-           <green>0</green>
-           <blue>255</blue>
-          </color>
-         </brush>
-        </colorrole>
-        <colorrole role="PlaceholderText">
-         <brush brushstyle="SolidPattern">
-          <color alpha="128">
-           <red>0</red>
-           <green>0</green>
-           <blue>255</blue>
-          </color>
-         </brush>
-        </colorrole>
-       </active>
-       <inactive>
-        <colorrole role="Text">
-         <brush brushstyle="SolidPattern">
-          <color alpha="255">
-           <red>0</red>
-           <green>0</green>
-           <blue>255</blue>
-          </color>
-         </brush>
-        </colorrole>
-        <colorrole role="PlaceholderText">
-         <brush brushstyle="SolidPattern">
-          <color alpha="128">
-           <red>0</red>
-           <green>0</green>
-           <blue>255</blue>
-          </color>
-         </brush>
-        </colorrole>
-       </inactive>
-       <disabled>
-        <colorrole role="Text">
-         <brush brushstyle="SolidPattern">
-          <color alpha="255">
-           <red>120</red>
-           <green>120</green>
-           <blue>120</blue>
-          </color>
-         </brush>
-        </colorrole>
-        <colorrole role="PlaceholderText">
-         <brush brushstyle="SolidPattern">
-          <color alpha="128">
-           <red>0</red>
-           <green>0</green>
-           <blue>0</blue>
-          </color>
-         </brush>
-        </colorrole>
-       </disabled>
-      </palette>
-     </property>
      <property name="placeholderText">
       <string>请输入文本内容...</string>
      </property>
@@ -321,7 +257,7 @@
      </item>
      <item>
       <property name="text">
-       <string>鼠标滑动</string>
+       <string>鼠标移动</string>
       </property>
      </item>
     </widget>
