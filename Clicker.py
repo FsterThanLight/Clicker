@@ -70,7 +70,7 @@ class Main_window(QMainWindow, Ui_MainWindow):
         # 初始化窗体
         self.setupUi(self)
         # 软件版本
-        self.version = 'v0.2'
+        self.version = 'v0.1'
         # 实例化子窗口1
         self.dialog_1 = Dialog()
         # 实例化设置窗口
@@ -131,7 +131,7 @@ class Main_window(QMainWindow, Ui_MainWindow):
         self.dialog_1.show()
         print('子窗口开启')
         resize = self.geometry()
-        self.dialog_1.move(resize.x(), resize.y() + 200)
+        self.dialog_1.move(resize.x()+50, resize.y() + 200)
 
     def format_table(self):
         """设置主窗口表格格式"""
@@ -379,7 +379,7 @@ class Main_window(QMainWindow, Ui_MainWindow):
                                             QMessageBox.Yes)
                 if x == QMessageBox.Yes:
                     print('开始更新')
-                    # os.popen()
+                    os.popen('update.exe')
                     sys.exit()
 
             else:
