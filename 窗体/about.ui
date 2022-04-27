@@ -151,7 +151,7 @@
       </font>
      </property>
      <property name="text">
-      <string>版本：v0.2</string>
+      <string>版本：v0.1</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>

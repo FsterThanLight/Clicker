@@ -132,6 +132,6 @@ class Ui_Dialog(object):
         self.github.setText(_translate("Dialog", "github地址"))
         self.gitee.setText(_translate("Dialog", "gitee地址"))
         self.label_3.setText(_translate("Dialog", "PyAutoGUI可视化，主要用于自动处理需要大量重复操作鼠标键盘的软件。"))
-        self.label_2.setText(_translate("Dialog", "版本：v0.2"))
+        self.label_2.setText(_translate("Dialog", "版本：v0.1"))
         self.label_5.setText(_translate("Dialog", "Clicker"))
 import images_rc
