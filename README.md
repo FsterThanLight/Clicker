@@ -2,7 +2,7 @@
 ## 简介
 PyAutoGUI lets your Python scripts control the mouse and keyboard to automate interactions with other applications. The API is designed to be simple. PyAutoGUI works on Windows, macOS, and Linux, and runs on Python 2 and 3.
 
-本软件是PyAutoGUI的可视化项目。PyAutoGUI是Python的第三方自动化库，PyAutoGUI能完全接管鼠标、键盘的控制权限，并能产生点击鼠标、敲击键盘的行为，完全模仿人类的操作。最初被用于GUI程序的自动化软件测试，因其简单高效的运作方式被广泛推广。
+本软件是PyAutoGUI的可视化项目。PyAutoGUI是Python的第三方自动化库，PyAutoGUI能完全接管鼠标、键盘的控制权限，并能产生点击鼠标、敲击键盘的行为，完全模仿人类的操作。最初被用于GUI程序的自动化软件测试。
 
 本软件基于PyAutoGUI开发，将PyAutoGUI的部分函数以图形化界面的形式展示，操作更简单，易于快速实现自动化作业。
 
