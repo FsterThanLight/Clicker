@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="命令集" uuid="1886539e-2253-49e8-bc61-bf7ba0319fc7">
+    <data-source source="LOCAL" name="命令集" uuid="adcda1af-c708-4092-9c03-1fc9a608ad57">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:C:\Users\Admin\Desktop\Clicker\命令集.db</jdbc-url>
+      <jdbc-url>jdbc:sqlite:C:\Users\Admin\Desktop\CLICKER\命令集.db</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
       <libraries>
         <library>

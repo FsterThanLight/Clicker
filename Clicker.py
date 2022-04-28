@@ -131,7 +131,7 @@ class Main_window(QMainWindow, Ui_MainWindow):
         self.dialog_1.show()
         print('子窗口开启')
         resize = self.geometry()
-        self.dialog_1.move(resize.x()+50, resize.y() + 200)
+        self.dialog_1.move(resize.x() + 50, resize.y() + 200)
 
     def format_table(self):
         """设置主窗口表格格式"""
@@ -533,7 +533,7 @@ class Dialog(QWidget, Ui_Form):
     def save_data(self):
         """获取4个参数命令，并保存至数据库"""
         instruction = self.comboBox_2.currentText()
-        # 根据参数的不同获取不同位置的4参数
+        # 根据参数的不同获取不同位置的4个参数
         # 获取图像名称和重读次数
         image = self.comboBox.currentText()
         repeat_number = self.spinBox_2.value()
@@ -562,10 +562,13 @@ class Dialog(QWidget, Ui_Form):
         if self.filePath != '':
             con = sqlite3.connect('命令集.db')
             cursor = con.cursor()
-            cursor.execute('INSERT INTO 命令(图像名称,键鼠命令,参数,重复次数) VALUES (?,?,?,?)',
-                           (image, instruction, parameter, repeat_number))
-            con.commit()
-            con.close()
+            try:
+                cursor.execute('INSERT INTO 命令(图像名称,键鼠命令,参数,重复次数) VALUES (?,?,?,?)',
+                               (image, instruction, parameter, repeat_number))
+                con.commit()
+                con.close()
+            except sqlite3.OperationalError:
+                QMessageBox.critical(self, "错误", "无写入数据权限，请以管理员身份运行！")
         self.close()
 
 
