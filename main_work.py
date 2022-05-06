@@ -37,18 +37,35 @@ def real_time_display_status(main_window):
 
 def execute_click(click_times, lOrR, img, main_window, number, setting):
     """执行鼠标点击事件"""
+
     # 4个参数：鼠标点击时间，按钮类型（左键右键中键），图片名称，重复次数
-    location = pyautogui.locateCenterOnScreen(img, confidence=setting.confidence)
-    if location is not None:
-        # 参数：位置X，位置Y，点击次数，时间间隔，持续时间，按键
-        pyautogui.click(location.x, location.y,
-                        clicks=click_times, interval=setting.interval, duration=setting.duration, button=lOrR)
-        main_window.plainTextEdit.appendPlainText('执行鼠标点击' + str(number))
-        real_time_display_status(main_window)
+    repeat = True
+
+    def image_match_click(main_window, remind):
+        nonlocal repeat
+        if location is not None:
+            # 参数：位置X，位置Y，点击次数，时间间隔，持续时间，按键
+            pyautogui.click(location.x, location.y,
+                            clicks=click_times, interval=setting.interval, duration=setting.duration, button=lOrR)
+            main_window.plainTextEdit.appendPlainText('执行鼠标点击' + str(number))
+            real_time_display_status(main_window)
+            repeat = False
+        else:
+            if remind:
+                main_window.plainTextEdit.appendPlainText('未匹配到图片' + str(number) + '正在重试')
+            else:
+                main_window.plainTextEdit.appendPlainText('未匹配到图片' + str(number))
+            real_time_display_status(main_window)
+            print('未找到匹配图片' + str(number))
+
+    # location = pyautogui.locateCenterOnScreen(img, confidence=setting.confidence)
+    if main_window.checkBox.isChecked():
+        location = pyautogui.locateCenterOnScreen(img, confidence=setting.confidence)
+        image_match_click(main_window, False)
     else:
-        main_window.plainTextEdit.appendPlainText('未匹配到图片' + str(number))
-        real_time_display_status(main_window)
-        print('未找到匹配图片' + str(number))
+        while start_state and repeat:
+            location = pyautogui.locateCenterOnScreen(img, confidence=setting.confidence)
+            image_match_click(main_window, True)
 
 
 def mouse_moves(direction, distance, main_window, setting):

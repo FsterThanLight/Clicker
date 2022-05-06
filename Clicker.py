@@ -140,7 +140,7 @@ class Main_window(QMainWindow, Ui_MainWindow):
         self.tableWidget.horizontalHeader().setSectionResizeMode(4, QHeaderView.Fixed)
         self.tableWidget.horizontalHeader().setSectionResizeMode(3, QHeaderView.Fixed)
         self.tableWidget.setColumnWidth(4, 50)
-        self.tableWidget.setColumnWidth(3, 50)
+        self.tableWidget.setColumnWidth(3, 70)
         self.tableWidget.setColumnWidth(0, 100)
 
     def show_setting(self):
