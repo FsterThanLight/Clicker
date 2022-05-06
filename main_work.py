@@ -40,9 +40,10 @@ def execute_click(click_times, lOrR, img, main_window, number, setting):
 
     # 4个参数：鼠标点击时间，按钮类型（左键右键中键），图片名称，重复次数
     repeat = True
+    number_1 = 1
 
     def image_match_click(main_window, remind):
-        nonlocal repeat
+        nonlocal repeat, number_1
         if location is not None:
             # 参数：位置X，位置Y，点击次数，时间间隔，持续时间，按键
             pyautogui.click(location.x, location.y,
@@ -52,7 +53,8 @@ def execute_click(click_times, lOrR, img, main_window, number, setting):
             repeat = False
         else:
             if remind:
-                main_window.plainTextEdit.appendPlainText('未匹配到图片' + str(number) + '正在重试')
+                main_window.plainTextEdit.appendPlainText('未匹配到图片' + str(number) + '正在重试' + str(number_1))
+                number_1 += 1
             else:
                 main_window.plainTextEdit.appendPlainText('未匹配到图片' + str(number))
             real_time_display_status(main_window)
